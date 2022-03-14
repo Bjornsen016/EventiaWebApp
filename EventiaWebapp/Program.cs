@@ -7,6 +7,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<EventDbCtx>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EventDatabase")));
+builder.Services.AddScoped<EventHandler>();
 
 var app = builder.Build();
 
