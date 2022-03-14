@@ -1,4 +1,31 @@
 ﻿@page
 @model EventiaWebapp.Pages.EventsModel
 @{
+    ViewData["Title"] = "Events";
 }
+<h2>Published Events</h2>
+
+<div class="accordion accordion-flush" id="events-accordion">
+    @if (Model.Events != null)
+    {
+        
+        @foreach (Event evt in Model.Events)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header d-flex justify-content-between" id="event-@evt.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event-@evt.Id-collapse" aria-expanded="false" aria-controls="event-@evt.Id-collapse">
+                        @evt.Title
+                    </button>
+                    <a asp-page="./Join" asp-route-id="@evt.Id" class="btn btn-secondary fw-bold">Join</a>
+                </h2>
+                <div id="event-@evt.Id-collapse" class="accordion-collapse collapse" aria-labelledby="event-@evt.Id" data-bs-parent="#events-accordion">
+                    <div class="accordion-body">
+                        <header class="h3 card-header d-flex justify-content-between"><span>@evt.Organizer.Name </span><span>@evt.Attendees.Count/@evt.SpotsAvailable</span></header>
+                        <p>@evt.Description</p>
+                        <footer class="card-footer d-flex justify-content-between"><span>@evt.Date.ToShortDateString()</span><span>@evt.Place</span></footer>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

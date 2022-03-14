@@ -1,5 +1,7 @@
 using EventiaWebapp.Data;
+using EventiaWebapp.Services;
 using Microsoft.EntityFrameworkCore;
+using EventHandler = EventiaWebapp.Services.EventHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
