@@ -20,7 +20,8 @@ public class EventHandler
 
     public async Task<List<Event>> GetEventsAsync()
     {
-        return await _context.Events.Include(evt => evt.Organizer).Include(evt => evt.Attendees).ToListAsync();
+        return await _context.Events.Include(evt => evt.Organizer).Include(evt => evt.Attendees)
+            .OrderBy(evt => evt.Date).ToListAsync();
     }
 
     public async Task<Attendee?> GetAttendeeAsync(int id)
