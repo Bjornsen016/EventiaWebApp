@@ -14,6 +14,15 @@ public class EventDbCtx : DbContext
     public DbSet<Organizer> Organizers { get; set; }
     public DbSet<Attendee> Attendees { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder
+                .UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Database=EventDb");
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Event>().ToTable("Event");
