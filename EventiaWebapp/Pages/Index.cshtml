@@ -1,4 +1,56 @@
 ﻿@page
 @model EventiaWebapp.Pages.IndexModel
 @{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="d-flex flex-column align-items-center">
+    <h1 class="display-4">Welcome
+        @if (Model.CurrentUser != null)
+        {
+            <span> @Model.CurrentUser.Name</span>
+            
+        }
+    </h1>
+    @if (Model.CurrentUser == null)
+    {
+        await PrintWelcome();
+    }
+    else
+    {
+        <h2>Your Events</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Title)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Date)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Place)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Organizer.Name)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var evt in Model.CurrentUser.Events)
+            {
+                <tr>
+                    <th scope="row">@evt.Title</th>
+                    <td>@evt.Date.ToShortDateString()</td>
+                    <td>@evt.Place</td>
+                    <td>@evt.Organizer.Name</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+@functions
+{
+    async Task PrintWelcome()
+    {
+        <p>This is a service to sign up for events handled by Kim!</p>
+        <div class="container d-flex justify-content-center">
+            <a asp-page="/Events" class="btn btn-outline-primary m-2">Register</a>
+            <a asp-page="/MyEvents" class="btn btn-outline-primary m-2">Log In</a>
+        </div>
+    }
 }

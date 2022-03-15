@@ -57,6 +57,6 @@ public class EventHandler
 
         if (thisAttendee == null) throw new Exception("Attendee not found");
 
-        return thisAttendee.Events.ToList();
+        return thisAttendee.Events.OrderBy(evt => evt.Date).ToList();
     }
 }

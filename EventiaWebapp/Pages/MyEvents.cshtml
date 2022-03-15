@@ -1,4 +1,39 @@
 ﻿@page
 @model EventiaWebapp.Pages.MyEventsModel
 @{
+    var events = Model.Events;
+    var attendee = Model.CurrentUser;
+    ViewData["Title"] = "My Events";
+}
+
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Title)</th>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Date)</th>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Place)</th>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer.Name)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var evt in events)
+        {
+            PrintTableRow(evt);
+        }
+        </tbody>
+    </table>
+</div>
+
+@functions
+{
+    void PrintTableRow(Event evt)
+    {
+        <tr>
+            <th scope="row">@evt.Title</th>
+            <td>@evt.Date.ToShortDateString()</td>
+            <td>@evt.Place</td>
+            <td>@evt.Organizer.Name</td>
+        </tr>
+    }
 }
