@@ -5,14 +5,14 @@
     ViewData["Title"] = "Join Event";
 }
 <div class="card">
-    <h2 class="card-header">
+    <h2 class="card-header d-flex justify-content-between">
         <span>@currentEvent.Title</span> 
         <span>@currentEvent.SpotsAvailable</span> 
     </h2>
     <div class="card-body">
         @currentEvent.Description
     </div>
-    <footer class="card-footer">
+    <footer class="card-footer d-flex justify-content-between">
         <span>@currentEvent.Date.ToShortDateString()</span> 
         <span>@currentEvent.Place</span> 
     </footer>
