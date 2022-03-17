@@ -8,14 +8,35 @@ public class EventHandler
 {
     private EventDbCtx _context;
 
+    public EventHandler(EventDbCtx context)
+    {
+        _context = context;
+    }
+
     public async Task<Event> GetEvent(int? id)
     {
         return await _context.Events.FirstOrDefaultAsync(evt => evt.Id == id);
     }
 
-    public EventHandler(EventDbCtx context)
+    public async Task<bool> CreateNewEvent(string address, string place, Organizer organizer, DateTime date,
+        int utcTimeOffset, string title, string description, int spotsAvailable)
     {
-        _context = context;
+        var newEvent = new Event
+        {
+            Address = address,
+            Place = place,
+            Organizer = organizer,
+            Date = date,
+            UtcTimeOffset = utcTimeOffset,
+            Title = title,
+            Description = description,
+            SpotsAvailable = spotsAvailable
+        };
+
+        await _context.Events.AddAsync(newEvent);
+        int numberOfPushedEvents = await _context.SaveChangesAsync();
+
+        return numberOfPushedEvents == 1;
     }
 
     public async Task<List<Event>> GetEventsAsync()
@@ -34,12 +55,13 @@ public class EventHandler
 
     public async Task<bool> RegisterToEvent(Attendee attendee, Event evt)
     {
-        var thisEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == evt.Id);
+        var thisEvent = await _context.Events.Include(evt => evt.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
 
         var thisAttendee =
             await _context.Attendees.Include(a => a.Events).FirstOrDefaultAsync(a => a.Id == attendee.Id);
 
-        if (thisAttendee == null || thisEvent == null) return false;
+        if (thisAttendee == null || thisEvent == null ||
+            thisEvent.Attendees.Count >= thisEvent.SpotsAvailable) return false;
 
         thisAttendee.Events.Add(thisEvent);
         await _context.SaveChangesAsync();
