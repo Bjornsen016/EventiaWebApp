@@ -26,7 +26,7 @@ public class EventHandler
             Address = address,
             Place = place,
             Organizer = organizer,
-            Date = date,
+            Date = date.ToUniversalTime(),
             UtcTimeOffset = utcTimeOffset,
             Title = title,
             Description = description,
@@ -55,13 +55,14 @@ public class EventHandler
 
     public async Task<bool> RegisterToEvent(Attendee attendee, Event evt)
     {
-        var thisEvent = await _context.Events.Include(evt => evt.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
+        var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
 
         var thisAttendee =
             await _context.Attendees.Include(a => a.Events).FirstOrDefaultAsync(a => a.Id == attendee.Id);
 
-        if (thisAttendee == null || thisEvent == null ||
-            thisEvent.Attendees.Count >= thisEvent.SpotsAvailable) return false;
+        //TODO: Throw exception if event is full, so we can handle it in the frontend later.
+        if (thisAttendee == null || thisEvent == null) return false;
+        if (thisEvent.Attendees.Count >= thisEvent.SpotsAvailable) throw new SpotsFilledException();
 
         thisAttendee.Events.Add(thisEvent);
         await _context.SaveChangesAsync();
@@ -81,4 +82,8 @@ public class EventHandler
 
         return thisAttendee.Events.OrderBy(evt => evt.Date).ToList();
     }
+}
+
+public class SpotsFilledException : Exception
+{
 }

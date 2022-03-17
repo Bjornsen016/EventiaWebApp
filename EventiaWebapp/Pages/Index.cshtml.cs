@@ -16,12 +16,15 @@ namespace EventiaWebapp.Pages
             _eventHandler = eventHandler;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? userId)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (userId == null) return Page();
+            var userIdString = Request.Cookies["attendee"];
+            if (userIdString == null) return Page();
 
-            CurrentUser = await _eventHandler.GetAttendeeAsync(1);
-            //TODO: Dubbelkolla om return Page(); behövs eller inte.
+            var userId = int.Parse(userIdString);
+
+            CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
+
             return Page();
         }
     }

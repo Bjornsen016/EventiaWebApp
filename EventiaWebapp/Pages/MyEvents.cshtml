@@ -1,5 +1,6 @@
 ﻿@page
-@model EventiaWebapp.Pages.MyEventsModel
+@using Utils
+@model MyEventsModel
 @{
     var events = Model.Events;
     var attendee = Model.CurrentUser;
@@ -7,6 +8,7 @@
 }
 
 <div class="container">
+    <h1>Hello @attendee.Name</h1>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -31,7 +33,7 @@
     {
         <tr>
             <th scope="row">@evt.Title</th>
-            <td>@evt.Date.ToShortDateString()</td>
+            <td>@TimeUtils.ConvertUtcToSpecificTimeZone(evt.Date, evt.UtcTimeOffset)</td>
             <td>@evt.Place</td>
             <td>@evt.Organizer.Name</td>
         </tr>

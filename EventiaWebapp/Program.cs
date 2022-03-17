@@ -10,8 +10,20 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EventDbCtx>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EventDatabase")));
 builder.Services.AddScoped<EventHandler>();
+builder.Services.AddScoped<LoginHandler>();
 
 var app = builder.Build();
+
+// när vi är i "debug" läge
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+// när vi är i "release" läge
+else
+{
+    app.UseExceptionHandler("Error");
+}
 
 using (var scope = app.Services.CreateScope())
 {

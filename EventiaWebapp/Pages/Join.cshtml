@@ -1,5 +1,5 @@
 ﻿@page
-@model EventiaWebapp.Pages.JoinModel
+@model JoinModel
 @{
     var currentEvent = Model.CurrentEvent;
     ViewData["Title"] = "Join Event";
@@ -25,6 +25,11 @@
 else
 {
     <form method="post"><button>Join This Event</button></form>
+}
+
+@if (Model.EventFull)
+{
+    <h1>EVENT FULL</h1>
 }
 
 @functions

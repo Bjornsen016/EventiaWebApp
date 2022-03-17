@@ -1,5 +1,6 @@
 using EventiaWebapp.Data;
 using EventiaWebapp.Models;
+using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,6 +10,7 @@ public class JoinModel : PageModel
 {
     public Event? CurrentEvent;
     public bool IsJoined;
+    public bool EventFull;
     public Attendee Attendee;
     private readonly Services.EventHandler _eventHandler;
 
@@ -17,24 +19,24 @@ public class JoinModel : PageModel
         _eventHandler = eventHandler;
     }
 
-    public async Task<IActionResult> OnGetAsync(int? id, int userId)
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id == null)
         {
             return NotFound();
         }
 
+        var userIdString = Request.Cookies["attendee"];
+        if (userIdString == null) return RedirectToPage("/LogIn");
+
+        var userId = int.Parse(userIdString);
+
         CurrentEvent = await _eventHandler.GetEvent(id);
-        Attendee = await _eventHandler.GetAttendeeAsync(1);
+        Attendee = await _eventHandler.GetAttendeeAsync(userId);
 
         if (CurrentEvent == null)
         {
             return NotFound();
-        }
-
-        if (Attendee == null)
-        {
-            return NotFound("You must log in.");
         }
 
         IsJoined = Attendee.Events.Contains(CurrentEvent);
@@ -44,10 +46,25 @@ public class JoinModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(int id /*, int userId*/)
     {
+        var userIdString = Request.Cookies["attendee"];
+        if (userIdString == null) return RedirectToPage("/LogIn");
+
+        var userId = int.Parse(userIdString);
+
         CurrentEvent = await _eventHandler.GetEvent(id);
-        Attendee = await _eventHandler.GetAttendeeAsync(1);
-        if (CurrentEvent != null && Attendee != null)
+        Attendee = await _eventHandler.GetAttendeeAsync(userId);
+
+        if (CurrentEvent == null || Attendee == null) return Page();
+
+        try
+        {
             IsJoined = await _eventHandler.RegisterToEvent(Attendee, CurrentEvent);
+        }
+        catch (SpotsFilledException e)
+        {
+            IsJoined = false;
+            EventFull = true;
+        }
 
         return Page();
     }

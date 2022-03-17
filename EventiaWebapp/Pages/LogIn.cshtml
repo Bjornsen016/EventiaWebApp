@@ -1,0 +1,13 @@
+﻿@page
+@model LogInModel
+@{
+}
+
+<form method="post">
+    <input asp-for="Password" placeholer="Enter your password"/><br/>
+    <button type="submit">Log in</button>
+</form>
+@if (@Model.LoginFailedMessage is not "")
+{
+    <h6>@Model.LoginFailedMessage</h6>
+}

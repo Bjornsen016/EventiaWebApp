@@ -15,19 +15,18 @@ public class MyEventsModel : PageModel
         _eventHandler = eventHandler;
     }
 
-    public async Task<IActionResult> OnGetAsync(int? userId)
+    public async Task<IActionResult> OnGetAsync()
     {
-        /* if (userId == null)
-         {
-             return Page();
-         }*/
+        var userIdString = Request.Cookies["attendee"];
+        if (userIdString == null) return RedirectToPage("/LogIn");
 
-        CurrentUser = await _eventHandler.GetAttendeeAsync(1);
-        if (CurrentUser != null)
-        {
-            Events = await _eventHandler.GetAttendeeEvents(CurrentUser);
-            Events = Events.OrderBy(evt => evt.Date).ToList();
-        }
+        var userId = int.Parse(userIdString);
+
+        CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
+        if (CurrentUser == null) return Page();
+
+        Events = await _eventHandler.GetAttendeeEvents(CurrentUser);
+        Events = Events.OrderBy(evt => evt.Date).ToList();
 
         return Page();
     }
