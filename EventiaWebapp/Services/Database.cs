@@ -1,13 +1,37 @@
-﻿using EventiaWebapp.Models;
+﻿using EventiaWebapp.Data;
+using EventiaWebapp.Models;
 
-namespace EventiaWebapp.Data;
+namespace EventiaWebapp.Services;
 
-public static class DbInitializer
+public class Database
 {
-    public static void Initialize(EventDbCtx context)
-    {
-        if (context.Events.Any()) return;
+    private readonly EventDbCtx _context;
 
+    public Database(EventDbCtx context)
+    {
+        _context = context;
+    }
+
+    public void RecreateAndSeed()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Database.EnsureCreated();
+        Seed();
+    }
+
+    public void CreateIfNotExist()
+    {
+        _context.Database.EnsureCreated();
+    }
+
+    public void CreateAndSeedIfNotExist()
+    {
+        if (!_context.Database.EnsureCreated()) return;
+        Seed();
+    }
+
+    private void Seed()
+    {
         var org = new Organizer() {Email = "Kim@mail", Name = "Kims Dataspel", PhoneNumber = "07022222"};
         var orgTwo = new Organizer() {Email = "Two@mail.com", Name = "Kims andra events", PhoneNumber = "01828018"};
 
@@ -94,8 +118,8 @@ public static class DbInitializer
             }
         };
 
-        context.Events.AddRange(events);
-        context.Attendees.AddRange(attendees);
-        context.SaveChanges();
+        _context.Events.AddRange(events);
+        _context.Attendees.AddRange(attendees);
+        _context.SaveChanges();
     }
 }

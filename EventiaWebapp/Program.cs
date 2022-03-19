@@ -11,28 +11,27 @@ builder.Services.AddDbContext<EventDbCtx>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EventDatabase")));
 builder.Services.AddScoped<EventHandler>();
 builder.Services.AddScoped<LoginHandler>();
+builder.Services.AddScoped<Database>();
+
 
 var app = builder.Build();
-
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var database = services.GetRequiredService<Database>();
 // när vi är i "debug" läge
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+
+    database.CreateAndSeedIfNotExist();
 }
 // när vi är i "release" läge
 else
 {
-    app.UseExceptionHandler("Error");
+    app.UseExceptionHandler("/Error");
+    database.CreateIfNotExist();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<EventDbCtx>();
-    context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
