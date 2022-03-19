@@ -1,48 +1,56 @@
 ﻿@page
+@using EventiaWebapp.Utils
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    var user = Model.CurrentUser;
+    ICollection<Event>? events = null;
+    if (user != null)
+    {
+        events = user.Events;
+    }
 }
 
-<div class="d-flex flex-column align-items-center">
-    <h1 class="display-4">Welcome
-        @if (Model.CurrentUser != null)
-        {
-            <span> @Model.CurrentUser.Name</span>
-            
-        }
-    </h1>
-    @if (Model.CurrentUser == null)
-    {
-        await PrintWelcome();
-    }
-    else
-    {
-        <h2>Your Events</h2>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Title)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Date)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Place)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.CurrentUser.Events.ElementAt(0).Organizer.Name)</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var evt in Model.CurrentUser.Events)
+<div class="container d-flex justify-content-center flex-column w-75">
+    <div class="d-flex flex-column align-items-center">
+        <h1 class="display-4 text-center">Welcome
+            @if (user != null)
             {
-                <tr>
-                    <th scope="row">@evt.Title</th>
-                    <td>@evt.Date.ToShortDateString()</td>
-                    <td>@evt.Place</td>
-                    <td>@evt.Organizer.Name</td>
-                </tr>
+                <span> @user.Name</span>
+            
             }
-            </tbody>
-        </table>
-    }
+        </h1>
+        @if (user == null)
+        {
+            await PrintWelcome();
+        }
+        else if (events != null)
+        {
+            <h2 class="text-center">Your Events</h2>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => events.ElementAt(0).Title)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => events.ElementAt(0).Date)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => events.ElementAt(0).Place)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => events.ElementAt(0).Organizer.Name)</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var evt in user.Events)
+                {
+                    <tr>
+                        <th scope="row">@evt.Title</th>
+                        <td>@TimeUtils.ConvertUtcToSpecificTimeZone(evt.Date, evt.UtcTimeOffset)</td>
+                        <td>@evt.Place</td>
+                        <td>@evt.Organizer.Name</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
 </div>
-
 @functions
 {
     async Task PrintWelcome()

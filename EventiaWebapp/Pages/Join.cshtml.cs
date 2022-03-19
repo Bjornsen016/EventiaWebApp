@@ -39,12 +39,18 @@ public class JoinModel : PageModel
             return NotFound();
         }
 
+        var spotsLeft = CurrentEvent.SpotsAvailable - CurrentEvent.Attendees.Count;
+        if (spotsLeft == 0)
+        {
+            EventFull = true;
+        }
+
         IsJoined = Attendee.Events.Contains(CurrentEvent);
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int id /*, int userId*/)
+    public async Task<IActionResult> OnPostAsync(int id)
     {
         var userIdString = Request.Cookies["attendee"];
         if (userIdString == null) return RedirectToPage("/LogIn");

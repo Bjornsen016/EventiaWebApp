@@ -15,7 +15,7 @@ public class EventHandler
 
     public async Task<Event> GetEvent(int? id)
     {
-        return await _context.Events.FirstOrDefaultAsync(evt => evt.Id == id);
+        return await _context.Events.Include(evt => evt.Attendees).FirstOrDefaultAsync(evt => evt.Id == id);
     }
 
     public async Task<bool> CreateNewEvent(string address, string place, Organizer organizer, DateTime date,

@@ -47,14 +47,20 @@ public class Database
             },
             new()
             {
-                Title = "Spela", Description = "Datorspel", Address = "Aggetorp",
+                Title = "Spela",
+                Description =
+                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
+                Address = "Aggetorp",
                 Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(),
                 UtcTimeOffset = 1,
                 Place = "Gråbo", SpotsAvailable = 10, Organizer = org
             },
             new()
             {
-                Title = "Spela", Description = "Datorspel", Address = "Aggetorp",
+                Title = "Spela",
+                Description =
+                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
+                Address = "Aggetorp",
                 Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(),
                 UtcTimeOffset = 1,
                 Place = "Gråbo", SpotsAvailable = 10, Organizer = org
@@ -65,7 +71,7 @@ public class Database
                 Description =
                     "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
                 Address = "Aggetorp", Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 0, Organizer = org
+                Place = "Gråbo", SpotsAvailable = 1, Organizer = org
             },
             new()
             {
@@ -101,7 +107,7 @@ public class Database
 
         var markusEvents = new[]
         {
-            events[4], events[5]
+            events[3], events[5]
         };
 
         var attendees = new Attendee[]

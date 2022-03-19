@@ -4,33 +4,39 @@
     var currentEvent = Model.CurrentEvent;
     ViewData["Title"] = "Join Event";
 }
-<div class="card">
-    <h2 class="card-header d-flex justify-content-between">
-        <span>@currentEvent.Title</span> 
-        <span>@currentEvent.SpotsAvailable</span> 
-    </h2>
-    <div class="card-body">
-        @currentEvent.Description
+
+<div class="container d-flex align-items-center justify-content-center flex-column w-75">
+    <div class="card">
+        <h2 class="card-header d-flex justify-content-between">
+            <span>@currentEvent.Title</span>
+            <span>Spots: @currentEvent.Attendees.Count/@currentEvent.SpotsAvailable</span>
+        </h2>
+        <div class="card-body">
+            @currentEvent.Description
+        </div>
+        <footer class="card-footer d-flex justify-content-between">
+            <span>@currentEvent.Date.ToShortDateString()</span> 
+            <span>@currentEvent.Place</span> 
+        </footer>
     </div>
-    <footer class="card-footer d-flex justify-content-between">
-        <span>@currentEvent.Date.ToShortDateString()</span> 
-        <span>@currentEvent.Place</span> 
-    </footer>
+
+
+    @if (Model.IsJoined)
+    {
+        await PrintJoinedHtml(@currentEvent);
+    }
+    else
+    {
+        @if (Model.EventFull)
+        {
+            <h1>EVENT FULL</h1>
+        }
+        else
+        {
+            <form class="m-2" method="post"><button class="btn btn-outline-success fw-bold">Join This Event</button></form>
+        }
+    }
 </div>
-
-@if (Model.IsJoined)
-{
-    await PrintJoinedHtml(@currentEvent);
-}
-else
-{
-    <form method="post"><button>Join This Event</button></form>
-}
-
-@if (Model.EventFull)
-{
-    <h1>EVENT FULL</h1>
-}
 
 @functions
 {
@@ -39,8 +45,8 @@ else
         <div class="d-flex flex-column align-items-center">
             <h2>Successfully joined @evt.Title! See you there!</h2>
             <div class="container d-flex justify-content-center">
-                <a asp-page="/Events" class="btn btn-outline-secondary fw-bold m-1">View more events</a>
-                <a asp-page="/MyEvents" class="btn btn-outline-secondary fw-bold m-1">View your events</a>
+                <a asp-page="/Events" class="btn btn-outline-success fw-bold m-1">View more events</a>
+                <a asp-page="/MyEvents" class="btn btn-outline-success fw-bold m-1">View your events</a>
             </div>
         </div>
     }
