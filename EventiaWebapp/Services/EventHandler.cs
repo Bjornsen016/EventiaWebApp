@@ -6,7 +6,7 @@ namespace EventiaWebapp.Services;
 
 public class EventHandler
 {
-    private EventDbCtx _context;
+    private readonly EventDbCtx _context;
 
     public EventHandler(EventDbCtx context)
     {
@@ -57,8 +57,7 @@ public class EventHandler
     {
         var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
 
-        var thisAttendee =
-            await _context.Attendees.Include(a => a.Events).FirstOrDefaultAsync(a => a.Id == attendee.Id);
+        var thisAttendee = await GetAttendeeAsync(attendee.Id);
 
         //TODO: Throw exception if event is full, so we can handle it in the frontend later.
         if (thisAttendee == null || thisEvent == null) return false;

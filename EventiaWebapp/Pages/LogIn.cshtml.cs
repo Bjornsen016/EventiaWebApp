@@ -31,8 +31,10 @@ namespace EventiaWebapp.Pages
             {
                 var user = await _loginHandler.TryLoginAttendee(Password);
 
-                var options = new CookieOptions();
-                options.Expires = DateTime.Today.AddDays(2);
+                var options = new CookieOptions
+                {
+                    Expires = DateTime.Today.AddDays(2)
+                };
 
                 Response.Cookies.Append("attendee", user.Id.ToString(), options);
                 return RedirectToPage("/MyEvents");

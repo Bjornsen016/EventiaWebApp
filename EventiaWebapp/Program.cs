@@ -13,6 +13,12 @@ builder.Services.AddScoped<EventHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<Database>();
 
+// när vi är i "debug" läge
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+}
+
 
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
@@ -32,6 +38,7 @@ else
     database.CreateIfNotExist();
 }
 
+scope.Dispose();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
