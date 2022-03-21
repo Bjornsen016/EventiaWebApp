@@ -1,0 +1,16 @@
+﻿@page
+@model EventiaWebapp.Pages.User.IndexModel
+@{
+    var attendee = Model.Attendee;
+}
+
+<div class="container d-flex flex-column align-items-start">
+    <h3>Your information</h3>
+    <div>Email: @attendee.Email</div>
+    <div>Phone Number: @attendee.PhoneNumber</div>
+    <div>Name: @attendee.Name</div>
+    @if (attendee.Id == 1)
+    {
+        <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>
+    }
+</div>

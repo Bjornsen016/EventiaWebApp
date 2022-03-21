@@ -4,7 +4,7 @@
 @{
     var events = Model.Events;
     var attendee = Model.CurrentUser;
-    ViewData["Title"] = "My Events";
+    ViewData["Title"] = attendee.Name + "'s Events";
 }
 
 <div class="container d-flex justify-content-center flex-column w-75">

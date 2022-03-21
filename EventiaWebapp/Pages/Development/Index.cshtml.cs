@@ -8,6 +8,7 @@ namespace EventiaWebapp.Pages.Development
     {
         private readonly Database _database;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        public bool DatabaseReseted;
 
         public IndexModel(Database database, IWebHostEnvironment hostingEnvironment)
         {
@@ -27,6 +28,7 @@ namespace EventiaWebapp.Pages.Development
             if (!_hostingEnvironment.IsDevelopment()) return NotFound();
 
             _database.RecreateAndSeed();
+            DatabaseReseted = true;
             return Page();
         }
     }

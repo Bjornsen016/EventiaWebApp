@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,9 @@ namespace EventiaWebapp.Pages
     {
         private readonly LoginHandler _loginHandler;
         public string LoginFailedMessage { get; set; }
+
+        [EmailAddress] [BindProperty] public string Email { get; set; }
+
         [BindProperty] public string Password { get; set; }
 
         public LogInModel(LoginHandler loginHandler)
@@ -27,9 +31,10 @@ namespace EventiaWebapp.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid) return Page();
             try
             {
-                var user = await _loginHandler.TryLoginAttendee(Password);
+                var user = await _loginHandler.TryLoginAttendee(Email, Password);
 
                 var options = new CookieOptions
                 {

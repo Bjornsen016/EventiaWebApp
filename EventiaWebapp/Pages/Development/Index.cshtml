@@ -2,9 +2,13 @@
 @model EventiaWebapp.Pages.Development.IndexModel
 @{
 }
-<form method="post">
-    Are you sure you want to reset the database?
-    <button type="submit">
+<form class="container d-flex flex-column justify-content-center align-items-center" method="post">
+    <h2>Are you sure you want to reset the database?</h2>
+    <button class="m-3 btn btn-outline-danger fw-bold" type="submit">
         Reset Database
     </button>
+    @if(@Model.DatabaseReseted)
+    {
+        <h5>Database has been Reset</h5>
+    }
 </form>

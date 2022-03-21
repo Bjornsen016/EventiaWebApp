@@ -2,7 +2,7 @@
 @model JoinModel
 @{
     var currentEvent = Model.CurrentEvent;
-    ViewData["Title"] = "Join Event";
+    ViewData["Title"] = "Join" + currentEvent.Title;
 }
 
 <div class="container d-flex align-items-center justify-content-center flex-column w-75">

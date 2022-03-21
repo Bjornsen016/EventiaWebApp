@@ -32,7 +32,7 @@ public class Database
 
     private void Seed()
     {
-        var org = new Organizer() {Email = "Kim@mail", Name = "Kims Dataspel", PhoneNumber = "07022222"};
+        var org = new Organizer() {Email = "Kim@mail.com", Name = "Kims Dataspel", PhoneNumber = "07022222"};
         var orgTwo = new Organizer() {Email = "Two@mail.com", Name = "Kims andra events", PhoneNumber = "01828018"};
 
         var events = new Event[]

@@ -1,13 +1,24 @@
 ﻿@page
 @model LogInModel
 @{
+    ViewData["Title"] = "Log in";
 }
-<h2>Skriv in "password" Björn. Då är du inloggad.</h2>
-<form method="post">
-    <input asp-for="Password" placeholer="Enter your password"/><br/>
-    <button type="submit">Log in</button>
-</form>
+
+<div class="container d-flex flex-column align-items-center justify-content-center">
+    <form class="container d-flex flex-column align-items-center justify-content-center" method="post">
+        <h2>Hej Björn</h2>
+        <h2>Skriv in "kims@email.com" i Email och "password" i Password</h2>
+        <h2>Tryck på Log in.</h2>
+        @Html.LabelFor(m => m.Email, "Email", new {@class = "form-label h5"})
+        @Html.TextBoxFor(m => m.Email, new {@class = "input-group-text"})
+        @Html.ValidationMessageFor(m => m.Email, "", new {@class = "error"})
+        @Html.LabelFor(m => m.Password, "Password", new {@class = "form-label h5"})
+        @Html.PasswordFor(m => m.Password, new {@class = "input-group-text"})
+        @Html.ValidationMessageFor(m => m.Password, "", new {@class = "error"})
+        <button class="btn btn-outline-success fw-bold m-3" type="submit">Log in</button>
+    </form>
 @if (@Model.LoginFailedMessage is not "")
 {
     <h6>@Model.LoginFailedMessage</h6>
 }
+</div>
