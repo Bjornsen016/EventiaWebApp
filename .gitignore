@@ -361,7 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/EventiaWebapp/wwwroot/lib/bootstrap
-
-/EventiaWebapp/appsettings.json
-/EventiaWebapp/appsettings.Development.json
