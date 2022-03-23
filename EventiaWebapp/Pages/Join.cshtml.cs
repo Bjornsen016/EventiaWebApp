@@ -1,11 +1,13 @@
-using EventiaWebapp.Data;
+using System.Security.Claims;
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages;
 
+[Authorize]
 public class JoinModel : PageModel
 {
     public Event? CurrentEvent;
@@ -26,9 +28,7 @@ public class JoinModel : PageModel
             return NotFound();
         }
 
-        var userIdString = Request.Cookies["attendee"];
-        if (userIdString == null) return RedirectToPage("/LogIn");
-
+        var userIdString = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = int.Parse(userIdString);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
@@ -52,9 +52,7 @@ public class JoinModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(int id)
     {
-        var userIdString = Request.Cookies["attendee"];
-        if (userIdString == null) return RedirectToPage("/LogIn");
-
+        var userIdString = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = int.Parse(userIdString);
 
         CurrentEvent = await _eventHandler.GetEvent(id);

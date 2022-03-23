@@ -1,31 +1,33 @@
+using System.Security.Claims;
 using EventiaWebapp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EventiaWebapp.Pages
+namespace EventiaWebapp.Pages;
+
+[AllowAnonymous]
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly ILogger<IndexModel> _logger;
+    private readonly Services.EventHandler _eventHandler;
+    public Attendee? CurrentUser;
+
+    public IndexModel(ILogger<IndexModel> logger, Services.EventHandler eventHandler)
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly Services.EventHandler _eventHandler;
-        public Attendee? CurrentUser;
+        _logger = logger;
+        _eventHandler = eventHandler;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger, Services.EventHandler eventHandler)
-        {
-            _logger = logger;
-            _eventHandler = eventHandler;
-        }
+    public async Task<IActionResult> OnGetAsync()
+    {
+        if (!User.Identity.IsAuthenticated) return Page();
 
-        public async Task<IActionResult> OnGetAsync()
-        {
-            var userIdString = Request.Cookies["attendee"];
-            if (userIdString == null) return Page();
+        var id = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = int.Parse(id);
 
-            var userId = int.Parse(userIdString);
+        CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
 
-            CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
-
-            return Page();
-        }
+        return Page();
     }
 }

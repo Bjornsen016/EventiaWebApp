@@ -1,5 +1,6 @@
 using EventiaWebapp.Data;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using EventHandler = EventiaWebapp.Services.EventHandler;
 
@@ -12,6 +13,15 @@ builder.Services.AddDbContext<EventDbCtx>(options =>
 builder.Services.AddScoped<EventHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<Database>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/LogIn";
+        options.LogoutPath = "/LogOut";
+        options.ReturnUrlParameter = "ReturnUrl";
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+    });
 
 // när vi är i "debug" läge
 if (builder.Environment.IsDevelopment())
@@ -44,6 +54,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 

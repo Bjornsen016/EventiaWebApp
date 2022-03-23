@@ -1,9 +1,12 @@
+using System.Security.Claims;
 using EventiaWebapp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages;
 
+[Authorize]
 public class MyEventsModel : PageModel
 {
     private readonly Services.EventHandler _eventHandler;
@@ -17,10 +20,8 @@ public class MyEventsModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var userIdString = Request.Cookies["attendee"];
-        if (userIdString == null) return RedirectToPage("/LogIn");
-
-        var userId = int.Parse(userIdString);
+        var id = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = int.Parse(id);
 
         CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
         if (CurrentUser == null) return Page();
