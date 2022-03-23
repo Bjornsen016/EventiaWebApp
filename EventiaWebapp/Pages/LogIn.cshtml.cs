@@ -17,7 +17,6 @@ public class LogInModel : PageModel
     public string ReturnUrl { get; set; }
 
     [EmailAddress] [BindProperty] public string Email { get; set; }
-
     [BindProperty] public string Password { get; set; }
 
     public LogInModel(LoginHandler loginHandler)
@@ -42,14 +41,7 @@ public class LogInModel : PageModel
         {
             var user = await _loginHandler.TryLoginAttendee(Email, Password);
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email)
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+            var principal = _loginHandler.CreateUserCookies(user);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 principal,
