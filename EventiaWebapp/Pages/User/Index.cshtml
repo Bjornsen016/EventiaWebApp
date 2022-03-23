@@ -9,6 +9,11 @@
     <div>Email: @attendee.Email</div>
     <div>Phone Number: @attendee.PhoneNumber</div>
     <div>Name: @attendee.Name</div>
+    <h3>Saved Cookies</h3>
+    @foreach(var claim in User.Claims)
+    {
+        <div>@claim.Type: @claim.Value </div>
+    }
     @if (attendee.Id == 1)
     {
         <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>
