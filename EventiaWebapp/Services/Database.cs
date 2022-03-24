@@ -32,6 +32,11 @@ public class Database
 
     private void Seed()
     {
+        var roles = new Role[]
+        {
+            new() {RoleName = "admin"},
+            new() {RoleName = "attendee"}
+        };
         var org = new Organizer() {Email = "Kim@mail.com", Name = "Kims Dataspel", PhoneNumber = "07022222"};
         var orgTwo = new Organizer() {Email = "Two@mail.com", Name = "Kims andra events", PhoneNumber = "01828018"};
 
@@ -115,12 +120,12 @@ public class Database
             new()
             {
                 Email = "kims@email.com", Password = "password", Name = "Kim", PhoneNumber = "0021021013",
-                Events = kimsEvents
+                Events = kimsEvents, Roles = new List<Role> {roles[0], roles[1]}
             },
             new()
             {
                 Email = "Markus@email.com", Password = "password", Name = "Markus", PhoneNumber = "0021021013",
-                Events = markusEvents
+                Events = markusEvents, Roles = new List<Role> {roles[1]}
             }
         };
 

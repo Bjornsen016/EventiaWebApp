@@ -14,7 +14,7 @@
     {
         <div>@claim.Type: @claim.Value </div>
     }
-    @if (attendee.Id == 1)
+    @if (attendee.IsAdmin())
     {
         <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>
     }

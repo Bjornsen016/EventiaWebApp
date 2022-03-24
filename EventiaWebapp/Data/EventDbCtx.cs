@@ -13,6 +13,7 @@ public class EventDbCtx : DbContext
     public DbSet<Event> Events { get; set; }
     public DbSet<Organizer> Organizers { get; set; }
     public DbSet<Attendee> Attendees { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -28,5 +29,6 @@ public class EventDbCtx : DbContext
         modelBuilder.Entity<Event>().ToTable("Event");
         modelBuilder.Entity<Organizer>().ToTable("Organizer");
         modelBuilder.Entity<Attendee>().ToTable("Attendee");
+        modelBuilder.Entity<Role>().ToTable("Role");
     }
 }
