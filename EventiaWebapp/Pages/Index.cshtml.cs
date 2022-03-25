@@ -9,13 +9,11 @@ namespace EventiaWebapp.Pages;
 [AllowAnonymous]
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
     private readonly Services.EventHandler _eventHandler;
     public Attendee? CurrentUser;
 
-    public IndexModel(ILogger<IndexModel> logger, Services.EventHandler eventHandler)
+    public IndexModel(Services.EventHandler eventHandler)
     {
-        _logger = logger;
         _eventHandler = eventHandler;
     }
 
