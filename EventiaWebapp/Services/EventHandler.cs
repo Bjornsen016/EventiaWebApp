@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Services;
 
+/// <summary>
+/// Handles events for the Eventia Web App.
+/// </summary>
 public class EventHandler
 {
     private readonly EventDbCtx _context;
@@ -13,11 +16,28 @@ public class EventHandler
         _context = context;
     }
 
+    /// <summary>
+    /// Gets the specific Event from the database.
+    /// </summary>
+    /// <param name="id">id of the event</param>
+    /// <returns>A Task that will return the Event including its Attendees if it's found, otherwise null</returns>
     public async Task<Event> GetEvent(int? id)
     {
         return await _context.Events.Include(evt => evt.Attendees).FirstOrDefaultAsync(evt => evt.Id == id);
     }
 
+    /// <summary>
+    /// Creates a new Event
+    /// </summary>
+    /// <param name="address"></param>
+    /// <param name="place"></param>
+    /// <param name="organizer"></param>
+    /// <param name="date"></param>
+    /// <param name="utcTimeOffset"></param>
+    /// <param name="title"></param>
+    /// <param name="description"></param>
+    /// <param name="spotsAvailable"></param>
+    /// <returns>A Task that returns true if the Event has been pushed to the database.</returns>
     public async Task<bool> CreateNewEvent(string address, string place, Organizer organizer, DateTime date,
         int utcTimeOffset, string title, string description, int spotsAvailable)
     {
@@ -39,12 +59,21 @@ public class EventHandler
         return numberOfPushedEvents == 1;
     }
 
+    /// <summary>
+    /// Gets all the Events in the database.
+    /// </summary>
+    /// <returns>A Task that returns a List of all the Events in the database. Includes the Attendees that have signed up</returns>
     public async Task<List<Event>> GetEventsAsync()
     {
         return await _context.Events.Include(evt => evt.Organizer).Include(evt => evt.Attendees)
             .OrderBy(evt => evt.Date).ToListAsync();
     }
 
+    /// <summary>
+    /// Gets a specific Attendee including the Events that they are signed up to.
+    /// </summary>
+    /// <param name="id">id of the Attendee</param>
+    /// <returns>A Task that will return the Attendee, its Events and the Organizer of those events.</returns>
     public async Task<Attendee?> GetAttendeeAsync(int id)
     {
         var attendee = await _context.Attendees.Include(attendee => attendee.Events)
@@ -53,6 +82,13 @@ public class EventHandler
         return attendee;
     }
 
+    /// <summary>
+    /// Register an Attendee to a specific Event
+    /// </summary>
+    /// <param name="attendee">The Attendee that wants to join</param>
+    /// <param name="evt">The Event to register to</param>
+    /// <returns>A Task that will return true if the Attendee is successfully registered to the Event</returns>
+    /// <exception cref="SpotsFilledException"></exception>
     public async Task<bool> RegisterToEvent(Attendee attendee, Event evt)
     {
         var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
@@ -69,10 +105,14 @@ public class EventHandler
         return true;
     }
 
+    /// <summary>
+    /// Get the specific Events the Attendee is signed up for.
+    /// </summary>
+    /// <param name="attendee"></param>
+    /// <returns>A Task that will return a List of Events that the Attendee is signed up for</returns>
+    /// <exception cref="Exception"></exception>
     public async Task<List<Event>> GetAttendeeEvents(Attendee attendee)
     {
-        //TODO: ta fram endast Events. Behöver inte Attendeen. ELLER?
-
         var thisAttendee =
             await _context.Attendees.Include(a => a.Events).ThenInclude(evt => evt.Organizer)
                 .FirstOrDefaultAsync(a => a.Id == attendee.Id);

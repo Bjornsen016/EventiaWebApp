@@ -3,6 +3,10 @@ using EventiaWebapp.Models;
 
 namespace EventiaWebapp.Services;
 
+/// <summary>
+/// Handles the database for Eventia Web App.
+/// Admin control.
+/// </summary>
 public class Database
 {
     private readonly EventDbCtx _context;
@@ -12,6 +16,9 @@ public class Database
         _context = context;
     }
 
+    /// <summary>
+    /// Deletes, recreates and Seeds the database with test data
+    /// </summary>
     public void RecreateAndSeed()
     {
         _context.Database.EnsureDeleted();
@@ -19,17 +26,26 @@ public class Database
         Seed();
     }
 
+    /// <summary>
+    /// If the database does not exist it will be created. Otherwise nothing will happen.
+    /// </summary>
     public void CreateIfNotExist()
     {
         _context.Database.EnsureCreated();
     }
 
+    /// <summary>
+    /// If the database does not exist it will be created and seeded with test data. Otherwise nothing will happen.
+    /// </summary>
     public void CreateAndSeedIfNotExist()
     {
         if (!_context.Database.EnsureCreated()) return;
         Seed();
     }
 
+    /// <summary>
+    /// Seeds the database with test data.
+    /// </summary>
     private void Seed()
     {
         var roles = new Role[]
