@@ -10,7 +10,7 @@ namespace EventiaWebapp.Pages;
 public class IndexModel : PageModel
 {
     private readonly Services.EventHandler _eventHandler;
-    public Attendee? CurrentUser;
+    public Models.User? CurrentUser;
 
     public IndexModel(Services.EventHandler eventHandler)
     {

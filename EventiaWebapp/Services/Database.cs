@@ -51,7 +51,7 @@ public class Database
         var roles = new Role[]
         {
             new() {RoleName = "admin"},
-            new() {RoleName = "attendee"}
+            new() {RoleName = "user"}
         };
         var org = new Organizer() {Email = "Kim@mail.com", Name = "Kims Dataspel", PhoneNumber = "07022222"};
         var orgTwo = new Organizer() {Email = "Two@mail.com", Name = "Kims andra events", PhoneNumber = "01828018"};
@@ -131,7 +131,7 @@ public class Database
             events[3], events[5]
         };
 
-        var attendees = new Attendee[]
+        var attendees = new User[]
         {
             new()
             {

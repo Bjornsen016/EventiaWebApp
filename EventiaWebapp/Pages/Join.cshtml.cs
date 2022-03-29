@@ -13,7 +13,7 @@ public class JoinModel : PageModel
     public Event? CurrentEvent;
     public bool IsJoined;
     public bool EventFull;
-    public Attendee Attendee;
+    public Models.User User;
     private readonly Services.EventHandler _eventHandler;
 
     public JoinModel(Services.EventHandler eventHandler)
@@ -28,11 +28,11 @@ public class JoinModel : PageModel
             return NotFound();
         }
 
-        var userIdString = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userIdString = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = int.Parse(userIdString);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        Attendee = await _eventHandler.GetAttendeeAsync(userId);
+        User = await _eventHandler.GetAttendeeAsync(userId);
 
         if (CurrentEvent == null)
         {
@@ -45,24 +45,24 @@ public class JoinModel : PageModel
             EventFull = true;
         }
 
-        IsJoined = Attendee.Events.Contains(CurrentEvent);
+        IsJoined = User.Events.Contains(CurrentEvent);
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id)
     {
-        var userIdString = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userIdString = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = int.Parse(userIdString);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        Attendee = await _eventHandler.GetAttendeeAsync(userId);
+        User = await _eventHandler.GetAttendeeAsync(userId);
 
-        if (CurrentEvent == null || Attendee == null) return Page();
+        if (CurrentEvent == null || User == null) return Page();
 
         try
         {
-            IsJoined = await _eventHandler.RegisterToEvent(Attendee, CurrentEvent);
+            IsJoined = await _eventHandler.RegisterToEvent(User, CurrentEvent);
         }
         catch (SpotsFilledException e)
         {
