@@ -20,10 +20,9 @@ public class MyEventsModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var id = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = int.Parse(id);
+        var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-        CurrentUser = await _eventHandler.GetAttendeeAsync(userId);
+        CurrentUser = await _eventHandler.GetUserAsync(userId);
         if (CurrentUser == null) return Page();
 
         Events = await _eventHandler.GetAttendeeEvents(CurrentUser);

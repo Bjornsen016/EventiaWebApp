@@ -28,11 +28,10 @@ public class JoinModel : PageModel
             return NotFound();
         }
 
-        var userIdString = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = int.Parse(userIdString);
+        var userId = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        User = await _eventHandler.GetAttendeeAsync(userId);
+        User = await _eventHandler.GetUserAsync(userId);
 
         if (CurrentEvent == null)
         {
@@ -45,18 +44,17 @@ public class JoinModel : PageModel
             EventFull = true;
         }
 
-        IsJoined = User.Events.Contains(CurrentEvent);
+        IsJoined = User.JoinedEvents.Contains(CurrentEvent);
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id)
     {
-        var userIdString = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = int.Parse(userIdString);
+        var userId = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        User = await _eventHandler.GetAttendeeAsync(userId);
+        User = await _eventHandler.GetUserAsync(userId);
 
         if (CurrentEvent == null || User == null) return Page();
 
