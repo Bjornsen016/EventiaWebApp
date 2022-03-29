@@ -82,7 +82,7 @@ public class Database
         {
             new()
             {
-                Email = "kims@email.com", UserName = "kims@email.com", FirstName = "Kim", LastName = "Björnsen Åklint",
+                Email = "kims@email.com", UserName = "Events a la Kim", FirstName = "Kim", LastName = "Björnsen Åklint",
                 PhoneNumber = "0021021013"
             },
             new()

@@ -2,24 +2,31 @@ using System.Security.Claims;
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using EventHandler = EventiaWebapp.Services.EventHandler;
 
 namespace EventiaWebapp.Pages.User;
 
 [Authorize]
 public class IndexModel : PageModel
 {
-    public Models.User User;
+    private readonly UserManager<Models.User> _userManager;
+    private readonly EventHandler _eventHandler;
+    public Models.User? CurrentUser;
 
-    public IndexModel()
+    public IndexModel(UserManager<Models.User> userManager, Services.EventHandler eventHandler)
     {
+        _userManager = userManager;
+        _eventHandler = eventHandler;
     }
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var id = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = int.Parse(id);
+        var userId = _userManager.GetUserId(User);
+        CurrentUser = await _eventHandler.GetUserAsync(userId);
 
 
         return Page();

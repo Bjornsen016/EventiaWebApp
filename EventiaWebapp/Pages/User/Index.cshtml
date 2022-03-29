@@ -1,20 +1,15 @@
 ﻿@page
 @model EventiaWebapp.Pages.User.IndexModel
 @{
-    var attendee = Model.User;
+    var user = Model.CurrentUser;
 }
 
 <div class="container d-flex flex-column align-items-start">
     <h3>Your information</h3>
-    <div>Email: @attendee.Email</div>
-    <div>Phone-number: @attendee.PhoneNumber</div>
-    <div>First Name: @attendee.FirstName</div>
-    <div>Last Name: @attendee.LastName</div>
-    <h3>Saved Cookies</h3>
-    @foreach(var claim in User.Claims)
-    {
-        <div>@claim.Type: @claim.Value </div>
-    }
+    <div>Email: @user.Email</div>
+    <div>Phone-number: @user.PhoneNumber</div>
+    <div>First Name: @user.FirstName</div>
+    <div>Last Name: @user.LastName</div>
     @*@if (attendee.IsAdmin())
     {
         <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>

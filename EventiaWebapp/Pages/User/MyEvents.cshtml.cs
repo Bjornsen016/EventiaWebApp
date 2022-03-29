@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages.User;
 
-[Authorize]
+[Authorize(Roles = "attendee")]
 public class MyEventsModel : PageModel
 {
     private readonly Services.EventHandler _eventHandler;
