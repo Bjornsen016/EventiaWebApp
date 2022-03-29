@@ -38,7 +38,7 @@ public class EventHandler
     /// <param name="description"></param>
     /// <param name="spotsAvailable"></param>
     /// <returns>A Task that returns true if the Event has been pushed to the database.</returns>
-    public async Task<bool> CreateNewEvent(string address, string place, Organizer organizer, DateTime date,
+    public async Task<bool> CreateNewEvent(string address, string place, User organizer, DateTime date,
         int utcTimeOffset, string title, string description, int spotsAvailable)
     {
         var newEvent = new Event
@@ -74,18 +74,18 @@ public class EventHandler
     /// </summary>
     /// <param name="id">id of the User</param>
     /// <returns>A Task that will return the User, its Events and the Organizer of those events.</returns>
-    public async Task<User?> GetAttendeeAsync(int id)
+    public async Task<User?> GetUserAsync(string id)
     {
-        var attendee = await _context.Attendees.Include(attendee => attendee.Events)
-            .ThenInclude(evt => evt.Organizer).FirstOrDefaultAsync(attendee => attendee.Id == id);
+        var user = await _context.Users.Include(user => user.JoinedEvents)
+            .ThenInclude(evt => evt.Organizer).FirstOrDefaultAsync(user => user.Id == id);
 
-        return attendee;
+        return user;
     }
 
     /// <summary>
     /// Register an User to a specific Event
     /// </summary>
-    /// <param name="userndee">The User that wants to join</param>
+    /// <param name="user">The User that wants to join</param>
     /// <param name="evt">The Event to register to</param>
     /// <returns>A Task that will return true if the User is successfully registered to the Event</returns>
     /// <exception cref="SpotsFilledException"></exception>
@@ -93,13 +93,13 @@ public class EventHandler
     {
         var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
 
-        var thisAttendee = await GetAttendeeAsync(user.Id);
+        var thisUser = await GetUserAsync(user.Id);
 
         //TODO: Throw exception if event is full, so we can handle it in the frontend later.
-        if (thisAttendee == null || thisEvent == null) return false;
+        if (thisUser == null || thisEvent == null) return false;
         if (thisEvent.Attendees.Count >= thisEvent.SpotsAvailable) throw new SpotsFilledException();
 
-        thisAttendee.Events.Add(thisEvent);
+        thisUser.JoinedEvents.Add(thisEvent);
         await _context.SaveChangesAsync();
 
         return true;
@@ -108,18 +108,18 @@ public class EventHandler
     /// <summary>
     /// Get the specific Events the User is signed up for.
     /// </summary>
-    /// <param name="userndee"></param>
+    /// <param name="user"></param>
     /// <returns>A Task that will return a List of Events that the User is signed up for</returns>
     /// <exception cref="Exception"></exception>
     public async Task<List<Event>> GetAttendeeEvents(User user)
     {
-        var thisAttendee =
-            await _context.Attendees.Include(a => a.Events).ThenInclude(evt => evt.Organizer)
+        var thisUser =
+            await _context.Users.Include(a => a.JoinedEvents).ThenInclude(evt => evt.Organizer)
                 .FirstOrDefaultAsync(a => a.Id == user.Id);
 
-        if (thisAttendee == null) throw new Exception("User not found");
+        if (thisUser == null) throw new Exception("User not found");
 
-        return thisAttendee.Events.OrderBy(evt => evt.Date).ToList();
+        return thisUser.JoinedEvents.OrderBy(evt => evt.Date).ToList();
     }
 }
 
