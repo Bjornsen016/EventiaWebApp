@@ -12,6 +12,6 @@ public class Event
     [Required] public DateTime Date { get; set; }
     [Required] public int UtcTimeOffset { get; set; }
     [Required] public int SpotsAvailable { get; set; }
-    [Required] public Organizer Organizer { get; set; }
-    public ICollection<Attendee> Attendees { get; set; }
+    [Required] public User Organizer { get; set; }
+    public List<User> Attendees { get; set; }
 }

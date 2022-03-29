@@ -1,9 +1,11 @@
 ﻿using EventiaWebapp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EventiaWebapp.Data;
 
-public class EventDbCtx : DbContext
+public class EventDbCtx : IdentityDbContext<User, IdentityRole, string>
 {
     public EventDbCtx(DbContextOptions<EventDbCtx> options)
         : base(options)
@@ -11,9 +13,7 @@ public class EventDbCtx : DbContext
     }
 
     public DbSet<Event> Events { get; set; }
-    public DbSet<Organizer> Organizers { get; set; }
-    public DbSet<Attendee> Attendees { get; set; }
-    public DbSet<Role> Roles { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -22,13 +22,5 @@ public class EventDbCtx : DbContext
             optionsBuilder
                 .UseSqlServer(@$"Server=(localdb)\MSSQLLocalDB;Database=EventDb");
         }
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Event>().ToTable("Event");
-        modelBuilder.Entity<Organizer>().ToTable("Organizer");
-        modelBuilder.Entity<Attendee>().ToTable("Attendee");
-        modelBuilder.Entity<Role>().ToTable("Role");
     }
 }
