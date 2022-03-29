@@ -11,7 +11,7 @@ namespace EventiaWebapp.Pages.User;
 public class IndexModel : PageModel
 {
     private readonly LoginHandler _loginHandler;
-    public Attendee Attendee;
+    public Models.User User;
 
     public IndexModel(LoginHandler loginHandler)
     {
@@ -20,10 +20,10 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var id = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var id = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var userId = int.Parse(id);
 
-        Attendee = await _loginHandler.GetAttendee(userId);
+        User = await _loginHandler.GetAttendee(userId);
         return Page();
     }
 }
