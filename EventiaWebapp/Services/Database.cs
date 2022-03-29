@@ -82,13 +82,16 @@ public class Database
         {
             new()
             {
-                Email = "kims@email.com", FirstName = "Kim", LastName = "Björnsen Åklint", PhoneNumber = "0021021013"
+                Email = "kims@email.com", UserName = "kims@email.com", FirstName = "Kim", LastName = "Björnsen Åklint",
+                PhoneNumber = "0021021013"
             },
             new()
             {
-                Email = "Markus@email.com", FirstName = "Markus", LastName = "Guru", PhoneNumber = "0021021013"
+                Email = "Markus@email.com", UserName = "Markus@email.com", FirstName = "Markus", LastName = "Guru",
+                PhoneNumber = "0021021013"
             }
         };
+
         await _userManager.CreateAsync(users[0], "P4ssword!");
         await _userManager.CreateAsync(users[1], "P4ssword!");
 

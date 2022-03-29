@@ -45,13 +45,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    database.CreateAndSeedIfNotExist();
+    await database.CreateAndSeedIfNotExist();
 }
 // när vi är i "release" läge
 else
 {
     app.UseExceptionHandler("/Error");
-    database.CreateIfNotExist();
+    await database.CreateIfNotExist();
 }
 
 scope.Dispose();
