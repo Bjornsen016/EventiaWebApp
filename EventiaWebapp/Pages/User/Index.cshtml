@@ -7,15 +7,16 @@
 <div class="container d-flex flex-column align-items-start">
     <h3>Your information</h3>
     <div>Email: @attendee.Email</div>
-    <div>Phone Number: @attendee.PhoneNumber</div>
-    <div>Name: @attendee.Name</div>
+    <div>Phone-number: @attendee.PhoneNumber</div>
+    <div>First Name: @attendee.FirstName</div>
+    <div>Last Name: @attendee.LastName</div>
     <h3>Saved Cookies</h3>
     @foreach(var claim in User.Claims)
     {
         <div>@claim.Type: @claim.Value </div>
     }
-    @if (attendee.IsAdmin())
+    @*@if (attendee.IsAdmin())
     {
         <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>
-    }
+    }*@
 </div>

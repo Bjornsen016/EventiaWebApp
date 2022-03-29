@@ -32,7 +32,7 @@
             </h2>
             <div id="event-@evt.Id-collapse" class="accordion-collapse collapse" aria-labelledby="event-@evt.Id" data-bs-parent="#events-accordion">
                 <div class="accordion-body">
-                    <header class="h3 card-header d-flex justify-content-between"><span>@evt.Organizer.Name </span><span>Spots: @evt.Attendees.Count/@evt.SpotsAvailable</span></header>
+                    <header class="h3 card-header d-flex justify-content-between"><span>@evt.Organizer.UserName </span><span>Spots: @evt.Attendees.Count/@evt.SpotsAvailable</span></header>
                     <p class="m-1">@evt.Description</p>
                     <footer class="card-footer d-flex justify-content-between"><span>@evt.Date.ToShortDateString()</span><span>@evt.Place</span></footer>
                 </div>
