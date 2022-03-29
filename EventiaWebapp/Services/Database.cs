@@ -1,5 +1,6 @@
 ﻿using EventiaWebapp.Data;
 using EventiaWebapp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EventiaWebapp.Services;
 
@@ -10,143 +11,88 @@ namespace EventiaWebapp.Services;
 public class Database
 {
     private readonly EventDbCtx _context;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public Database(EventDbCtx context)
+    public Database(EventDbCtx context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     /// <summary>
     /// Deletes, recreates and Seeds the database with test data
     /// </summary>
-    public void RecreateAndSeed()
+    public async Task RecreateAndSeed()
     {
-        _context.Database.EnsureDeleted();
-        _context.Database.EnsureCreated();
-        Seed();
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
+        await Seed();
     }
 
     /// <summary>
     /// If the database does not exist it will be created. Otherwise nothing will happen.
     /// </summary>
-    public void CreateIfNotExist()
+    public async Task CreateIfNotExist()
     {
-        _context.Database.EnsureCreated();
+        if (!await _context.Database.EnsureCreatedAsync()) return;
+        await SeedRolesAndAdmin();
     }
 
     /// <summary>
     /// If the database does not exist it will be created and seeded with test data. Otherwise nothing will happen.
     /// </summary>
-    public void CreateAndSeedIfNotExist()
+    public async Task CreateAndSeedIfNotExist()
     {
-        if (!_context.Database.EnsureCreated()) return;
-        Seed();
+        if (!await _context.Database.EnsureCreatedAsync()) return;
+        await Seed();
+    }
+
+
+    private async Task SeedRolesAndAdmin()
+    {
+        var roles = new IdentityRole[]
+        {
+            new() {Name = "administrator"},
+            new() {Name = "attendee"},
+            new() {Name = "organizer"}
+        };
+
+        await _roleManager.CreateAsync(roles[0]);
+        await _roleManager.CreateAsync(roles[1]);
+        await _roleManager.CreateAsync(roles[2]);
+
+        var admin = new User
+        {
+            Email = "admin@eventia.com", UserName = "admin@eventia.com", FirstName = "admin", LastName = "",
+            PhoneNumber = "21312314"
+        };
+        await _userManager.CreateAsync(admin, "4Dministrator!");
+        await _userManager.AddToRoleAsync(admin, "administrator");
     }
 
     /// <summary>
     /// Seeds the database with test data.
     /// </summary>
-    private void Seed()
+    private async Task Seed()
     {
-        var roles = new Role[]
-        {
-            new() {RoleName = "admin"},
-            new() {RoleName = "user"}
-        };
-        var org = new Organizer() {Email = "Kim@mail.com", Name = "Kims Dataspel", PhoneNumber = "07022222"};
-        var orgTwo = new Organizer() {Email = "Two@mail.com", Name = "Kims andra events", PhoneNumber = "01828018"};
-
-        var events = new Event[]
+        await SeedRolesAndAdmin();
+        var users = new User[]
         {
             new()
             {
-                Title = "Lan Party ",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp", Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = org
+                Email = "kims@email.com", FirstName = "Kim", LastName = "Björnsen Åklint", PhoneNumber = "0021021013"
             },
             new()
             {
-                Title = "Spela",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp",
-                Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(),
-                UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = org
-            },
-            new()
-            {
-                Title = "Spela",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp",
-                Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(),
-                UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = org
-            },
-            new()
-            {
-                Title = "Lan Party ",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp", Date = new DateTime(2022, 05, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 1, Organizer = org
-            },
-            new()
-            {
-                Title = "Något kul ",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp", Date = new DateTime(2022, 09, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = orgTwo
-            },
-            new()
-            {
-                Title = "Fia med knuff",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp", Date = new DateTime(2022, 07, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = orgTwo
-            },
-            new()
-            {
-                Title = "Sticknings kväll",
-                Description =
-                    "Curabitur maximus commodo mauris id venenatis. Sed viverra cursus sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam finibus pulvinar augue a dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque ut imperdiet lorem, quis egestas sem. Proin tincidunt tortor eleifend massa tempor gravida. Sed eu luctus est.",
-                Address = "Aggetorp", Date = new DateTime(2022, 08, 10, 19, 0, 0).ToUniversalTime(), UtcTimeOffset = 1,
-                Place = "Gråbo", SpotsAvailable = 10, Organizer = orgTwo
-            },
-        };
-
-        var kimsEvents = new[]
-        {
-            events[0],
-            events[1]
-        };
-
-        var markusEvents = new[]
-        {
-            events[3], events[5]
-        };
-
-        var attendees = new User[]
-        {
-            new()
-            {
-                Email = "kims@email.com", Password = "password", Name = "Kim", PhoneNumber = "0021021013",
-                Events = kimsEvents, Roles = new List<Role> {roles[0], roles[1]}
-            },
-            new()
-            {
-                Email = "Markus@email.com", Password = "password", Name = "Markus", PhoneNumber = "0021021013",
-                Events = markusEvents, Roles = new List<Role> {roles[1]}
+                Email = "Markus@email.com", FirstName = "Markus", LastName = "Guru", PhoneNumber = "0021021013"
             }
         };
+        await _userManager.CreateAsync(users[0], "P4ssword!");
+        await _userManager.CreateAsync(users[1], "P4ssword!");
 
-        _context.Events.AddRange(events);
-        _context.Attendees.AddRange(attendees);
-        _context.SaveChanges();
+        await _userManager.AddToRolesAsync(users[0], new List<string> {"attendee", "organizer"});
+        await _userManager.AddToRoleAsync(users[1], "attendee");
     }
 }
