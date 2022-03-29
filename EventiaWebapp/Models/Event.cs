@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventiaWebapp.Models;
@@ -14,7 +15,9 @@ public class Event
     [Required] public int UtcTimeOffset { get; set; }
     [Required] public int SpotsAvailable { get; set; }
 
-    [InverseProperty("HostedEvents")] public User Organizer { get; set; }
+    [InverseProperty("HostedEvents")]
+    [DisplayName("Organizer")]
+    public User Organizer { get; set; }
 
     [InverseProperty("JoinedEvents")] public List<User> Attendees { get; set; }
 }

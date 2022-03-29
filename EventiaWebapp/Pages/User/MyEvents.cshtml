@@ -8,14 +8,14 @@
 }
 
 <div class="container d-flex justify-content-center flex-column w-75">
-    <h1 class="text-center">Hello @attendee.FirstName @attendee.LastName</h1>
+    <h1 class="text-center">@attendee.FirstName @attendee.LastName's Events</h1>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Title)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Date)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Place)</th>
-            <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer.FirstName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer)</th>
         </tr>
         </thead>
         <tbody>

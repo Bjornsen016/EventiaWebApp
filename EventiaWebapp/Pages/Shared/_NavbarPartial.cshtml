@@ -66,6 +66,16 @@
                             <a class="nav-link nav-pills text-dark" asp-page="/Administrator/Index">Manage Users</a>
                         </li>
                     }
+                    @if (isOrganizer)
+                    {
+                        <li class="nav-item end-100">
+                            <a class="nav-link nav-pills text-dark" asp-page="/Organizer/Index">Organize Events</a>
+                        </li>
+                        <li class="nav-item end-100">
+                            <a class="nav-link nav-pills text-dark" asp-page="/Organizer/AddEvent">Add Event</a>
+                        </li>
+
+                    }
                     <li class="nav-item end-100">
                         <a class="nav-link text-dark" asp-page="/User/LogOut">Log Out</a>
                     </li>

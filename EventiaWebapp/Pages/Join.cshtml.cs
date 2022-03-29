@@ -2,6 +2,7 @@ using System.Security.Claims;
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,12 +14,14 @@ public class JoinModel : PageModel
     public Event? CurrentEvent;
     public bool IsJoined;
     public bool EventFull;
-    public Models.User User;
+    public Models.User? CurrentUser;
     private readonly Services.EventHandler _eventHandler;
+    private readonly UserManager<Models.User> _userManager;
 
-    public JoinModel(Services.EventHandler eventHandler)
+    public JoinModel(Services.EventHandler eventHandler, UserManager<Models.User> userManager)
     {
         _eventHandler = eventHandler;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult> OnGetAsync(int? id)
@@ -28,10 +31,10 @@ public class JoinModel : PageModel
             return NotFound();
         }
 
-        var userId = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = _userManager.GetUserId(User);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        User = await _eventHandler.GetUserAsync(userId);
+        CurrentUser = await _eventHandler.GetUserAsync(userId);
 
         if (CurrentEvent == null)
         {
@@ -44,23 +47,23 @@ public class JoinModel : PageModel
             EventFull = true;
         }
 
-        IsJoined = User.JoinedEvents.Contains(CurrentEvent);
+        IsJoined = CurrentUser.JoinedEvents.Contains(CurrentEvent);
 
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(int id)
     {
-        var userId = base.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var userId = _userManager.GetUserId(User);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
-        User = await _eventHandler.GetUserAsync(userId);
+        CurrentUser = await _eventHandler.GetUserAsync(userId);
 
-        if (CurrentEvent == null || User == null) return Page();
+        if (CurrentEvent == null || CurrentUser == null) return Page();
 
         try
         {
-            IsJoined = await _eventHandler.RegisterToEvent(User, CurrentEvent);
+            IsJoined = await _eventHandler.RegisterToEvent(CurrentUser, CurrentEvent);
         }
         catch (SpotsFilledException e)
         {
