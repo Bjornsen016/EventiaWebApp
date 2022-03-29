@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EventiaWebapp.Pages;
+namespace EventiaWebapp.Pages.User;
 
 [Authorize]
 public class MyEventsModel : PageModel

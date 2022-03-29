@@ -21,8 +21,7 @@ public class IndexModel : PageModel
     {
         if (!User.Identity.IsAuthenticated) return Page();
 
-        var id = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        var userId = int.Parse(id);
+        var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
         CurrentUser = await _eventHandler.GetUserAsync(userId);
 

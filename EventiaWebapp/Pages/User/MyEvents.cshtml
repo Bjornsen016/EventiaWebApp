@@ -1,21 +1,21 @@
 ﻿@page
-@using Utils
-@model MyEventsModel
+@using EventiaWebapp.Utils;
+@model EventiaWebapp.Pages.User.MyEventsModel
 @{
     var events = Model.Events;
     var attendee = Model.CurrentUser;
-    ViewData["Title"] = attendee.Name + "'s Events";
+    ViewData["Title"] = attendee.FirstName + " " + attendee.LastName + "'s Events";
 }
 
 <div class="container d-flex justify-content-center flex-column w-75">
-    <h1 class="text-center">Hello @attendee.Name</h1>
+    <h1 class="text-center">Hello @attendee.FirstName @attendee.LastName</h1>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Title)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Date)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Place)</th>
-            <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer.Name)</th>
+            <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer.FirstName)</th>
         </tr>
         </thead>
         <tbody>
@@ -29,13 +29,13 @@
 
 @functions
 {
-    void PrintTableRow(Event evt)
+    void PrintTableRow(EventiaWebapp.Models.Event evt)
     {
         <tr>
             <th scope="row">@evt.Title</th>
             <td>@TimeUtils.ConvertUtcToSpecificTimeZone(evt.Date, evt.UtcTimeOffset)</td>
             <td>@evt.Place</td>
-            <td>@evt.Organizer.Name</td>
+            <td>@evt.Organizer.FirstName @evt.Organizer.LastName</td>
         </tr>
     }
 }
