@@ -15,7 +15,11 @@ builder.Services.AddDbContext<EventDbCtx>(options =>
 builder.Services.AddScoped<EventHandler>();
 builder.Services.AddScoped<Database>();
 
-builder.Services.AddIdentity<User, IdentityRole>(options => { options.SignIn.RequireConfirmedAccount = false; })
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789-._@+";
+    })
     .AddEntityFrameworkStores<EventDbCtx>();
 
 builder.Services.ConfigureApplicationCookie(options =>
