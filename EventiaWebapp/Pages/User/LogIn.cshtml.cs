@@ -15,8 +15,15 @@ public class LogInModel : PageModel
     private readonly UserManager<Models.User> _userManager;
     public string ReturnUrl { get; set; }
 
-    [EmailAddress] [BindProperty] public string Email { get; set; }
-    [BindProperty] public string Password { get; set; }
+    [Required]
+    [EmailAddress]
+    [BindProperty]
+    public string Email { get; set; }
+
+    [Required]
+    [BindProperty]
+    [DataType(DataType.Password)]
+    public string Password { get; set; }
 
     public LogInModel(SignInManager<Models.User> signInManager, UserManager<Models.User> userManager)
     {
