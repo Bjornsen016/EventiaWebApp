@@ -1,38 +1,47 @@
 using System.Security.Claims;
 using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Pages.Administrator;
 
-[Authorize]
+[Authorize(Roles = "administrator")]
 public class IndexModel : PageModel
 {
-    private readonly Database _database;
-    private readonly IWebHostEnvironment _hostingEnvironment;
-    public bool DatabaseReseted;
+    private readonly UserManager<Models.User> _userManager;
+    public List<Models.User>? Users { get; set; }
 
-    public IndexModel(Database database, IWebHostEnvironment hostingEnvironment)
+    public IndexModel(UserManager<Models.User> userManager)
     {
-        _database = database;
-        _hostingEnvironment = hostingEnvironment;
+        _userManager = userManager;
     }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task OnGetAsync()
     {
-        if (!_hostingEnvironment.IsDevelopment()) return NotFound();
+        Users = await _userManager.Users.ToListAsync();
+    }
 
+    public async Task<IActionResult> OnPostAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (await IsOrganizer(user))
+        {
+            await _userManager.RemoveFromRoleAsync(user, "organizer");
+        }
+        else
+        {
+            await _userManager.AddToRoleAsync(user, "organizer");
+        }
 
+        Users = await _userManager.Users.ToListAsync();
         return Page();
     }
 
-    public IActionResult OnPost()
+    public async Task<bool> IsOrganizer(Models.User user)
     {
-        if (!_hostingEnvironment.IsDevelopment()) return NotFound();
-
-        _database.RecreateAndSeed();
-        DatabaseReseted = true;
-        return Page();
+        return await _userManager.IsInRoleAsync(user, "organizer");
     }
 }
