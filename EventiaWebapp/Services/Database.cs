@@ -54,9 +54,9 @@ public class Database
     {
         var roles = new IdentityRole[]
         {
-            new() {Name = "administrator"},
-            new() {Name = "attendee"},
-            new() {Name = "organizer"}
+            new() {Name = Config.ADMIN_ROLE_NAME},
+            new() {Name = Config.ATTENDEE_ROLE_NAME},
+            new() {Name = Config.ORGANIZER_ROLE_NAME}
         };
 
         await _roleManager.CreateAsync(roles[0]);
@@ -69,7 +69,7 @@ public class Database
             PhoneNumber = "21312314"
         };
         await _userManager.CreateAsync(admin, "4Dministrator!");
-        await _userManager.AddToRoleAsync(admin, "administrator");
+        await _userManager.AddToRoleAsync(admin, Config.ADMIN_ROLE_NAME);
     }
 
     /// <summary>
@@ -95,7 +95,8 @@ public class Database
         await _userManager.CreateAsync(users[0], "P4ssword!");
         await _userManager.CreateAsync(users[1], "P4ssword!");
 
-        await _userManager.AddToRolesAsync(users[0], new List<string> {"attendee", "organizer"});
-        await _userManager.AddToRoleAsync(users[1], "attendee");
+        await _userManager.AddToRolesAsync(users[0],
+            new List<string> {Config.ATTENDEE_ROLE_NAME, Config.ORGANIZER_ROLE_NAME});
+        await _userManager.AddToRoleAsync(users[1], Config.ATTENDEE_ROLE_NAME);
     }
 }

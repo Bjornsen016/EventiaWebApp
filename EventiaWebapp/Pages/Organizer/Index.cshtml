@@ -1,5 +1,30 @@
 ﻿@page
 @model EventiaWebapp.Pages.Organizer.IndexModel
 @{
+    ViewData["Title"] = "Organize Events";
+    var events = Model.Events;
 }
 MANAGE EVENTS
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Date</th>
+        <th scope="col">Location</th>
+        <th scope="col">Sign ups</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @for (var i = 0; i < events.Count; i++)
+    {
+        //TODO: Make it not show admin as a user here.
+        <tr>
+            <th scope="row">@events[i].Title</th>
+            <td>@events[i].Date.ToShortDateString()</td>
+            <td>@events[i].Place</td>
+            <td>@events[i].Attendees.Count / @events[i].SpotsAvailable</td>
+        </tr>
+    }
+    </tbody>
+</table>

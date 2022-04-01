@@ -1,7 +1,6 @@
 using EventiaWebapp.Data;
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EventHandler = EventiaWebapp.Services.EventHandler;
@@ -14,6 +13,7 @@ builder.Services.AddDbContext<EventDbCtx>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EventDatabase")));
 builder.Services.AddScoped<EventHandler>();
 builder.Services.AddScoped<Database>();
+builder.Services.AddScoped<OrganizerHandler>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {

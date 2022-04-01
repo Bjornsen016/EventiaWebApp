@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages;
 
-[Authorize]
+[Authorize(Roles = Config.ATTENDEE_ROLE_NAME)]
 public class JoinModel : PageModel
 {
     public Event? CurrentEvent;
