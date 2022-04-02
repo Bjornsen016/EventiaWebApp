@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Pages.Administrator;
 
+//TODO: Söka på användare för att lättare hitta en specifik användare.
+
 [Authorize(Roles = Config.ADMIN_ROLE_NAME)]
 public class IndexModel : PageModel
 {

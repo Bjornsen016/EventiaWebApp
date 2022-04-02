@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Pages;
 
+//TODO: Om admin, visa lite användar/event/organizer statistik.
+
 [AllowAnonymous]
 public class IndexModel : PageModel
 {

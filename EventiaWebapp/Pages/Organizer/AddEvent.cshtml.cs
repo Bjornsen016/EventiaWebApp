@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages.Organizer;
 
+//TODO: Länka till en bild, kanske till och med ladda upp en bild för eventet.
+
 [Authorize(Roles = Config.ORGANIZER_ROLE_NAME)]
 public class AddEventModel : PageModel
 {

@@ -1,6 +1,3 @@
-using System.Security.Claims;
-using EventiaWebapp.Models;
-using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using EventHandler = EventiaWebapp.Services.EventHandler;
 
 namespace EventiaWebapp.Pages.User;
+
+//TODO: Skiv ut informationen bättre och med mer info.
 
 [Authorize]
 public class IndexModel : PageModel
@@ -27,7 +26,6 @@ public class IndexModel : PageModel
     {
         var userId = _userManager.GetUserId(User);
         CurrentUser = await _eventHandler.GetUserAsync(userId);
-
 
         return Page();
     }

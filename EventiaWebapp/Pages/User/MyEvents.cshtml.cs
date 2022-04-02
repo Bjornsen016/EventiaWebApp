@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages.User;
 
+//TODO: Användare ska kunna ta bort sig från en Event.
+//TODO: Email utskick?
+
 [Authorize(Roles = Config.ATTENDEE_ROLE_NAME)]
 public class MyEventsModel : PageModel
 {
