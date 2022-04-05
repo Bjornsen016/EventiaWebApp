@@ -15,7 +15,8 @@ public class OrganizerHandler
 
     public async Task<List<Event>> GetOrganizersEvents(string organizerId)
     {
-        return await _context.Events.Include(e => e.Attendees).Where(e => e.Organizer.Id == organizerId).ToListAsync();
+        return await _context.Events.Include(e => e.Attendees).Where(e => e.Organizer.Id == organizerId)
+            .OrderBy(e => e.Date).ToListAsync();
     }
 
     /// <summary>
@@ -49,5 +50,24 @@ public class OrganizerHandler
         int numberOfPushedEvents = await _context.SaveChangesAsync();
 
         return numberOfPushedEvents == 1;
+    }
+
+    public async Task<bool> EditEvent(Event currentEvent, string inputAdress, string inputPlace, DateTime inputDate,
+        int inputUtcOffset, string inputTitle, string inputDescription, int inputSpotsAvailable)
+    {
+        var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == currentEvent.Id);
+
+        if (dbEvent is null) return false;
+
+        dbEvent.Address = inputAdress;
+        dbEvent.UtcTimeOffset = inputUtcOffset;
+        dbEvent.Title = inputTitle;
+        dbEvent.Description = inputDescription;
+        dbEvent.SpotsAvailable = inputSpotsAvailable;
+        dbEvent.Place = inputPlace;
+        dbEvent.Date = inputDate;
+
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

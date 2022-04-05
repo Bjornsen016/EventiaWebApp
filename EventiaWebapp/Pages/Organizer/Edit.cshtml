@@ -1,8 +1,9 @@
 ﻿@page
-@model EventiaWebapp.Pages.Organizer.AddEventModel
+@model EventiaWebapp.Pages.Organizer.EditModel
 @{
 }
-<h2>Add new Event</h2>
+
+<h2>Edit @Model.CurrentEvent.Title</h2>
 <form class="mx-1 mx-md-4" method="post">
     <div class="d-flex flex-row align-items-center mb-4">
         <div class="form-floating flex-fill mb-0">
@@ -20,21 +21,21 @@
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
     <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date" value="2021-08-13"/>
+        <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date"/>
         <label class="form-label" asp-for="Input.Date"></label>
         <span asp-validation-for="Input.Date"></span>
     </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
     <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset" value="1"/>
+        <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset"/>
         <label class="form-label" asp-for="Input.UtcOffset"></label>
         <span asp-validation-for="Input.UtcOffset"></span>
     </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
     <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available" value="10"/>
+        <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available"/>
         <label class="form-label" asp-for="Input.SpotsAvailable"></label>
         <span asp-validation-for="Input.SpotsAvailable"></span>
     </div>
@@ -53,5 +54,5 @@
             <span asp-validation-for="Input.Adress"></span>
         </div>
     </div>
-    <button class="btn btn-outline-success fw-bold m-3" type="submit">Add Event</button>
+    <button class="btn btn-outline-success fw-bold m-3" type="submit">Edit Event</button>
 </form>

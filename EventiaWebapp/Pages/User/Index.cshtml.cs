@@ -25,6 +25,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         var userId = _userManager.GetUserId(User);
+
         CurrentUser = await _eventHandler.GetUserAsync(userId);
 
         return Page();

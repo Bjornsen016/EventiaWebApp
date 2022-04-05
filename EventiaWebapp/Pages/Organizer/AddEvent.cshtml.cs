@@ -72,4 +72,15 @@ public class Input
     [Required]
     [Display(Name = "Spots Available")]
     public int SpotsAvailable { get; set; }
+
+    public void FillInput(Models.Event evt)
+    {
+        Adress = evt.Address;
+        Place = evt.Place;
+        Date = evt.Date;
+        UtcOffset = evt.UtcTimeOffset;
+        Title = evt.Title;
+        Description = evt.Description;
+        SpotsAvailable = evt.SpotsAvailable;
+    }
 }

@@ -4,7 +4,8 @@
     ViewData["Title"] = "Organize Events";
     var events = Model.Events;
 }
-MANAGE EVENTS
+<div class="container d-flex justify-content-center flex-column w-75">
+<h2 class="display-4 text-center mb-3">Manage your hosted Events</h2>
 <table class="table table-bordered table-hover">
     <thead>
     <tr>
@@ -12,6 +13,7 @@ MANAGE EVENTS
         <th scope="col">Date</th>
         <th scope="col">Location</th>
         <th scope="col">Sign ups</th>
+        <th scope="col">Edit</th>
     </tr>
     </thead>
     
@@ -24,7 +26,9 @@ MANAGE EVENTS
             <td>@events[i].Date.ToShortDateString()</td>
             <td>@events[i].Place</td>
             <td>@events[i].Attendees.Count / @events[i].SpotsAvailable</td>
+            <td><a class="btn btn-outline-info" asp-page="/Organizer/Edit" asp-route-id="@events[i].Id">Edit</a></td>
         </tr>
     }
     </tbody>
 </table>
+</div>
