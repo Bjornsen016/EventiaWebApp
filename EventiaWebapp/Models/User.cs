@@ -9,7 +9,7 @@ public class User : IdentityUser
     [Required] public string FirstName { get; set; }
     [Required] public string LastName { get; set; }
 
-    public List<Event> HostedEvents { get; set; }
+    public List<Event>? HostedEvents { get; set; }
 
-    public List<Event> JoinedEvents { get; set; }
+    public List<Event>? JoinedEvents { get; set; }
 }

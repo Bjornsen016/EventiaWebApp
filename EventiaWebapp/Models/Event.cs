@@ -19,5 +19,5 @@ public class Event
     [DisplayName("Organizer")]
     public User Organizer { get; set; }
 
-    [InverseProperty("JoinedEvents")] public List<User> Attendees { get; set; }
+    [InverseProperty("JoinedEvents")] public List<User>? Attendees { get; set; }
 }
