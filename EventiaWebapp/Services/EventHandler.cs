@@ -72,6 +72,20 @@ public class EventHandler
         return true;
     }
 
+    public async Task<bool> UnRegisterToEvent(User user, Event evt)
+    {
+        var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);
+
+        var thisUser = await GetUserAsync(user.Id);
+
+        if (thisUser == null || thisEvent == null) return false;
+
+        thisUser.JoinedEvents.Remove(thisEvent);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
     /// <summary>
     /// Get the specific Events the User is signed up for.
     /// </summary>

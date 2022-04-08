@@ -16,12 +16,13 @@
             <th scope="col">@Html.DisplayNameFor(model => events[0].Date)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Place)</th>
             <th scope="col">@Html.DisplayNameFor(model => events[0].Organizer)</th>
+            <th scope="col">Unregister</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var evt in events)
         {
-            PrintTableRow(evt);
+            await PrintTableRow(evt);
         }
         </tbody>
     </table>
@@ -29,13 +30,18 @@
 
 @functions
 {
-    void PrintTableRow(EventiaWebapp.Models.Event evt)
+    async Task PrintTableRow(EventiaWebapp.Models.Event evt)
     {
+        //TODO: Style it.
         <tr>
             <th scope="row">@evt.Title</th>
             <td>@TimeUtils.ConvertUtcToSpecificTimeZone(evt.Date, evt.UtcTimeOffset)</td>
             <td>@evt.Place</td>
             <td>@evt.Organizer.FirstName @evt.Organizer.LastName</td>
+            <td><form method="post">
+                <button type="submit">X</button>
+                <input type="hidden" name="eventId" value="@evt.Id"/>
+            </form></td>
         </tr>
     }
 }
