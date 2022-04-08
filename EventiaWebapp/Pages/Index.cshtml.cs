@@ -1,14 +1,9 @@
-using System.Security.Claims;
-using EventiaWebapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Pages;
-
-//TODO: Om admin, visa lite användar/event/organizer statistik.
 
 [AllowAnonymous]
 public class IndexModel : PageModel
