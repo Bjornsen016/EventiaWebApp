@@ -44,4 +44,9 @@ public class IndexModel : PageModel
     {
         return await _userManager.IsInRoleAsync(user, Config.ORGANIZER_ROLE_NAME);
     }
+
+    public async Task<bool> IsAdmin(Models.User user)
+    {
+        return await _userManager.IsInRoleAsync(user, Config.ADMIN_ROLE_NAME);
+    }
 }

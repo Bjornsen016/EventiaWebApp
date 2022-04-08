@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages.Organizer;
 
-//TODO: Redigera Events i efterhand.
-//TODO: Lägg till en sida till som visar en lista med anmälda deltagare.
-
 [Authorize(Roles = Config.ORGANIZER_ROLE_NAME)]
 public class IndexModel : PageModel
 {

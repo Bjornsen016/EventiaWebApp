@@ -58,7 +58,7 @@
             else
             {
                 <div class="nav-item end-100">
-                    <a class="nav-link text-dark" asp-page="/User/Index">@username</a>
+                    <span class="nav-link text-dark">@username</span>
                 </div>
                 <ul class="navbar-nav">
                     @if (isAdmin)
@@ -77,6 +77,9 @@
                         </li>
 
                     }
+                    <li class="nav-item end-100">
+                        <a class="nav-link text-dark" asp-page="/User/Index">Account</a>
+                    </li>
                     <li class="nav-item end-100">
                         <a class="nav-link text-dark" asp-page="/User/LogOut">Log Out</a>
                     </li>

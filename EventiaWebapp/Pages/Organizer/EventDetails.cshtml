@@ -1,0 +1,41 @@
+﻿@page
+@model EventiaWebapp.Pages.Organizer.EventDetailsModel
+@{
+    ViewData["Title"] = @Model.CurrentEvent.Title;
+    var users = Model.CurrentEvent.Attendees;
+}
+
+
+@if (users.Count != 0)
+{
+    <div class="container d-flex justify-content-center flex-column w-75">
+        <h2 class="display-4 text-center mb-3">Details for @Model.CurrentEvent.Title</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+            </tr>
+            </thead>
+    
+            <tbody>
+            @for (var i = 0; i < users.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@users[i].FirstName @users[i].LastName</th>
+                    <td>@users[i].Email</td>
+                    <td>@users[i].PhoneNumber</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="container d-flex justify-content-center flex-column w-75">
+        <h2 class="display-4 text-center mb-3">Details for @Model.CurrentEvent.Title</h2>
+        <h3 class="display-6 text-center mb-3">No attendee signed up yet</h3>
+    </div>
+}

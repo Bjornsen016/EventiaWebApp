@@ -14,19 +14,20 @@
         <th scope="col">Location</th>
         <th scope="col">Sign ups</th>
         <th scope="col">Edit</th>
+        <th scope="col">Details</th>
     </tr>
     </thead>
     
     <tbody>
     @for (var i = 0; i < events.Count; i++)
     {
-        //TODO: Make it not show admin as a user here.
         <tr>
             <th scope="row">@events[i].Title</th>
             <td>@events[i].Date.ToShortDateString()</td>
             <td>@events[i].Place</td>
             <td>@events[i].Attendees.Count / @events[i].SpotsAvailable</td>
             <td><a class="btn btn-outline-info" asp-page="/Organizer/Edit" asp-route-id="@events[i].Id">Edit</a></td>
+            <td><a class="btn btn-outline-info" asp-page="/Organizer/EventDetails" asp-route-id="@events[i].Id">Details</a></td>
         </tr>
     }
     </tbody>

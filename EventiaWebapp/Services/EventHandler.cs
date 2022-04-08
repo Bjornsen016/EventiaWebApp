@@ -63,7 +63,6 @@ public class EventHandler
 
         var thisUser = await GetUserAsync(user.Id);
 
-        //TODO: Throw exception if event is full, so we can handle it in the frontend later.
         if (thisUser == null || thisEvent == null) return false;
         if (thisEvent.Attendees.Count >= thisEvent.SpotsAvailable) throw new SpotsFilledException();
 

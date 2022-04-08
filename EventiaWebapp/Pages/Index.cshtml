@@ -17,7 +17,6 @@
             @if (user != null)
             {
                 <span> @user.FirstName @user.LastName</span>
-            
             }
         </h1>
         @if (user == null)
@@ -49,6 +48,10 @@
                 </tbody>
             </table>
         }
+        @if (Model.IsAdmin)
+        {
+            PrintAdminInfo();
+        }
     </div>
 </div>
 
@@ -61,5 +64,31 @@
             <a asp-page="/User/Register" class="btn btn-outline-primary m-2">Register</a>
             <a asp-page="/User/LogIn" class="btn btn-outline-primary m-2">Log In</a>
         </div>
+    }
+
+    void PrintAdminInfo()
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Heading</th>
+                <th scope="col">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Attendees</th>
+                <td>@Model.Attendees.Count</td>
+            </tr>
+            <tr>
+                <th scope="row">Organizers</th>
+                <td>@Model.Organizers.Count</td>
+            </tr>
+            <tr>
+                <th scope="row">Events</th>
+                <td>@Model.AllEvents.Count</td>
+            </tr>
+            </tbody>
+        </table>
     }
 }

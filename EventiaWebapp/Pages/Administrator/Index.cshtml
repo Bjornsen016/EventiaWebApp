@@ -17,18 +17,21 @@
     <tbody>
     @for (var i = 0; i < users.Count; i++)
     {
-        //TODO: Make it not show admin as a user here.
         var isOrgan = await Model.IsOrganizer(users[i]);
-        <tr>
-            <th scope="row">@users[i].UserName</th>
-            <td>@users[i].Email</td>
-            <td>
-                <form method="post">
-                    @Html.CheckBox("chkName",@isOrgan,new{onclick="this.form.submit();"})
-                    <input type="hidden" name="id" value="@users[i].Id"/>
-                </form>
-            </td>
-        </tr>
+        var isAdmin = await Model.IsAdmin(users[i]);
+        @if (!isAdmin)
+        {
+           <tr>
+               <th scope="row">@users[i].UserName</th>
+               <td>@users[i].Email</td>
+               <td>
+                   <form method="post">
+                       @Html.CheckBox("chkName",@isOrgan,new{onclick="this.form.submit();"})
+                       <input type="hidden" name="id" value="@users[i].Id"/>
+                   </form>
+               </td>
+           </tr>
+        }
     }
     </tbody>
 </table>
