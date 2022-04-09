@@ -10,9 +10,9 @@
     <thead>
     <tr>
         <th scope="col">Title</th>
-        <th scope="col">Date</th>
+        <th scope="col"><a asp-page="/Organizer/Index" asp-route-sortOrder="@Model.DateSort">Date</a></th>
         <th scope="col">Location</th>
-        <th scope="col">Sign ups</th>
+        <th scope="col"><a asp-page="/Organizer/Index" asp-route-sortOrder="@Model.SignsSort">Sign ups</a></th>
         <th scope="col">Edit</th>
         <th scope="col">Details</th>
     </tr>
