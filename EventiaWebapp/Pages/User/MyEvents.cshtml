@@ -32,16 +32,17 @@
 {
     async Task PrintTableRow(EventiaWebapp.Models.Event evt)
     {
-        //TODO: Style it.
         <tr>
             <th scope="row">@evt.Title</th>
             <td>@TimeUtils.ConvertUtcToSpecificTimeZone(evt.Date, evt.UtcTimeOffset)</td>
             <td>@evt.Place</td>
             <td>@evt.Organizer.FirstName @evt.Organizer.LastName</td>
-            <td><form method="post">
-                <button type="submit">X</button>
-                <input type="hidden" name="eventId" value="@evt.Id"/>
-            </form></td>
+            <td>
+                <form method="post" class="d-flex align-items-center justify-content-center flex-column">
+                    <button class="btn-close" type="submit"></button>
+                    <input type="hidden" name="eventId" value="@evt.Id"/>
+                </form>
+            </td>
         </tr>
     }
 }
