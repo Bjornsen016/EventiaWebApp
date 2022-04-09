@@ -5,6 +5,9 @@
     var users = Model.Users;
 }
 
+
+<div class="container d-flex justify-content-center flex-column w-75">    
+    <h2 class="display-4 text-center mb-3">Manage users</h2>
 <table class="table table-bordered table-hover">
     <thead>
     <tr>
@@ -21,17 +24,18 @@
         var isAdmin = await Model.IsAdmin(users[i]);
         @if (!isAdmin)
         {
-           <tr>
-               <th scope="row">@users[i].UserName</th>
-               <td>@users[i].Email</td>
-               <td>
-                   <form method="post">
-                       @Html.CheckBox("chkName",@isOrgan,new{onclick="this.form.submit();"})
-                       <input type="hidden" name="id" value="@users[i].Id"/>
-                   </form>
-               </td>
-           </tr>
+            <tr>
+                <th scope="row">@users[i].UserName</th>
+                <td>@users[i].Email</td>
+                <td>
+                    <form method="post">
+                        @Html.CheckBox("chkName",@isOrgan,new{onclick="this.form.submit();"})
+                        <input type="hidden" name="id" value="@users[i].Id"/>
+                    </form>
+                </td>
+            </tr>
         }
     }
     </tbody>
 </table>
+</div>

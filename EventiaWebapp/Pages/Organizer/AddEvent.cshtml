@@ -2,56 +2,59 @@
 @model EventiaWebapp.Pages.Organizer.AddEventModel
 @{
 }
-<h2>Add new Event</h2>
-<form class="mx-1 mx-md-4" method="post">
-    <div class="d-flex flex-row align-items-center mb-4">
-        <div class="form-floating flex-fill mb-0">
-            <input class="form-control flex-fill mb-0" asp-for="Input.Title" placeholder="Title"/>
-            <label class="form-label" asp-for="Input.Title"></label>
-            <span asp-validation-for="Input.Title"></span>
+
+<div class="container d-flex justify-content-center flex-column w-75">
+    <h2 class="display-4 text-center mb-3">Add new Event</h2>
+    <form class="mx-1 mx-md-4" method="post">
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.Title" placeholder="Title"/>
+                <label class="form-label" asp-for="Input.Title"></label>
+                <span asp-validation-for="Input.Title"></span>
+            </div>
         </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <textarea class="form-control flex-fill mb-0" asp-for="Input.Description" placeholder="Description"></textarea>
-        <label class="form-label" asp-for="Input.Description"></label>
-        <span asp-validation-for="Input.Description"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date" value="2021-08-13"/>
-        <label class="form-label" asp-for="Input.Date"></label>
-        <span asp-validation-for="Input.Date"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset" value="1"/>
-        <label class="form-label" asp-for="Input.UtcOffset"></label>
-        <span asp-validation-for="Input.UtcOffset"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available" value="10"/>
-        <label class="form-label" asp-for="Input.SpotsAvailable"></label>
-        <span asp-validation-for="Input.SpotsAvailable"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.Place" placeholder="Place"/>
-        <label class="form-label" asp-for="Input.Place"></label>
-        <span asp-validation-for="Input.Place"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-        <div class="form-floating flex-fill mb-0">
-            <input class="form-control flex-fill mb-0" asp-for="Input.Adress" placeholder="Adress"/>
-            <label class="form-label" asp-for="Input.Adress"></label>
-            <span asp-validation-for="Input.Adress"></span>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <textarea class="form-control flex-fill mb-0" asp-for="Input.Description" placeholder="Description"></textarea>
+                <label class="form-label" asp-for="Input.Description"></label>
+                <span asp-validation-for="Input.Description"></span>
+            </div>
         </div>
-    </div>
-    <button class="btn btn-outline-success fw-bold m-3" type="submit">Add Event</button>
-</form>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date" value="2021-08-13"/>
+                <label class="form-label" asp-for="Input.Date"></label>
+                <span asp-validation-for="Input.Date"></span>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset" value="1"/>
+                <label class="form-label" asp-for="Input.UtcOffset"></label>
+                <span asp-validation-for="Input.UtcOffset"></span>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available" value="10"/>
+                <label class="form-label" asp-for="Input.SpotsAvailable"></label>
+                <span asp-validation-for="Input.SpotsAvailable"></span>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.Place" placeholder="Place"/>
+                <label class="form-label" asp-for="Input.Place"></label>
+                <span asp-validation-for="Input.Place"></span>
+            </div>
+        </div>
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-floating flex-fill mb-0">
+                <input class="form-control flex-fill mb-0" asp-for="Input.Adress" placeholder="Adress"/>
+                <label class="form-label" asp-for="Input.Adress"></label>
+                <span asp-validation-for="Input.Adress"></span>
+            </div>
+        </div>
+        <button class="btn btn-outline-success fw-bold m-3" type="submit">Add Event</button>
+    </form>
+</div>
