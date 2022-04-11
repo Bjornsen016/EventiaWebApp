@@ -10,25 +10,27 @@
     <div>Phone-number: @user.PhoneNumber</div>
     <div>First Name: @user.FirstName</div>
     <div>Last Name: @user.LastName</div>
-    
-    <form method="post">
-        <div class="d-flex flex-row align-items-center mb-4">
-            <div class="form-floating flex-fill mb-0">
-                <input class="form-control flex-fill mb-0" asp-for="CurrentPassword" placeholder="FirstName"/>
-                <label class="form-label" asp-for="CurrentPassword"></label>
-                <span asp-validation-for="CurrentPassword"></span>
-            </div>
-        </div>
-        <div class="d-flex flex-row align-items-center mb-4">
-            <div class="form-floating flex-fill mb-0">
-                <input class="form-control flex-fill mb-0" asp-for="NewPassword" placeholder="FirstName"/>
-                <label class="form-label" asp-for="NewPassword"></label>
-                <span asp-validation-for="NewPassword"></span>
-            </div>
-        </div>
-        <button class="btn btn-outline-success" type="submit">Change password</button>
-    </form>
 
+    <div class="container d-flex justify-content-center flex-column w-50">
+        <form method="post">
+            Change password
+            <div class="d-flex flex-row align-items-center mb-4">
+                <div class="form-floating flex-fill mb-0">
+                    <input class="form-control flex-fill mb-0" asp-for="CurrentPassword" placeholder="CurrentPassword"/>
+                    <label class="form-label" asp-for="CurrentPassword"></label>
+                    <span asp-validation-for="CurrentPassword"></span>
+                </div>
+            </div>
+            <div class="d-flex flex-row align-items-center mb-4">
+                <div class="form-floating flex-fill mb-0">
+                    <input class="form-control flex-fill mb-0" asp-for="NewPassword" placeholder="NewPassword"/>
+                    <label class="form-label" asp-for="NewPassword"></label>
+                    <span asp-validation-for="NewPassword"></span>
+                </div>
+            </div>
+            <button class="btn btn-outline-success" type="submit">Change password</button>
+        </form>
+    </div>
     @*@if (attendee.IsAdmin())
     {
         <a class="btn btn-outline-success fw-bold m-3" asp-page="/Development/Index">Go to developer page</a>
