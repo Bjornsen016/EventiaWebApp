@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,16 @@ public class IndexModel : PageModel
     private readonly EventHandler _eventHandler;
     public Models.User? CurrentUser;
 
+    [BindProperty]
+    [DataType(DataType.Password)]
+    [Display(Name = "New Password")]
+    public string NewPassword { get; set; }
+
+    [BindProperty]
+    [DataType(DataType.Password)]
+    [Display(Name = "Current Password")]
+    public string CurrentPassword { get; set; }
+
     public IndexModel(UserManager<Models.User> userManager, Services.EventHandler eventHandler)
     {
         _userManager = userManager;
@@ -27,6 +38,19 @@ public class IndexModel : PageModel
         var userId = _userManager.GetUserId(User);
 
         CurrentUser = await _eventHandler.GetUserAsync(userId);
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var userId = _userManager.GetUserId(User);
+
+        CurrentUser = await _eventHandler.GetUserAsync(userId);
+        if (ModelState.IsValid)
+        {
+            var result = await _userManager.ChangePasswordAsync(CurrentUser, CurrentPassword, NewPassword);
+        }
 
         return Page();
     }

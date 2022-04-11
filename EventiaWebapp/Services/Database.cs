@@ -68,7 +68,8 @@ public class Database
             Email = "admin@eventia.com", UserName = "admin@eventia.com", FirstName = "admin", LastName = "",
             PhoneNumber = "21312314"
         };
-        await _userManager.CreateAsync(admin, "4Dministrator!");
+        //old pass word that probably works atm. 4Dministrator!
+        await _userManager.CreateAsync(admin, "AdminP4ssword!");
         await _userManager.AddToRoleAsync(admin, Config.ADMIN_ROLE_NAME);
     }
 
