@@ -70,4 +70,17 @@ public class OrganizerHandler
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> RemoveEvent(int id)
+    {
+        var thisEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (thisEvent is null) return false;
+
+        _context.Remove(thisEvent);
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }

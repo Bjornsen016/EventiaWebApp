@@ -29,11 +29,11 @@ public class IndexModel : PageModel
         var user = await _userManager.FindByIdAsync(id);
         if (await IsOrganizer(user))
         {
-            await _userManager.RemoveFromRoleAsync(user, Config.ORGANIZER_ROLE_NAME);
+            var result = await _userManager.RemoveFromRoleAsync(user, Config.ORGANIZER_ROLE_NAME);
         }
         else
         {
-            await _userManager.AddToRoleAsync(user, Config.ORGANIZER_ROLE_NAME);
+            var result = await _userManager.AddToRoleAsync(user, Config.ORGANIZER_ROLE_NAME);
         }
 
         Users = await _userManager.Users.ToListAsync();

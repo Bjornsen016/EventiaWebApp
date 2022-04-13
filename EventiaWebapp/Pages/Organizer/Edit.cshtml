@@ -13,39 +13,39 @@
         </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <textarea class="form-control flex-fill mb-0" asp-for="Input.Description" placeholder="Description"></textarea>
-        <label class="form-label" asp-for="Input.Description"></label>
-        <span asp-validation-for="Input.Description"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date"/>
-        <label class="form-label" asp-for="Input.Date"></label>
-        <span asp-validation-for="Input.Date"></span>
-    </div>
+        <div class="form-floating flex-fill mb-0">
+            <textarea class="form-control flex-fill mb-0" asp-for="Input.Description" placeholder="Description"></textarea>
+            <label class="form-label" asp-for="Input.Description"></label>
+            <span asp-validation-for="Input.Description"></span>
+        </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset"/>
-        <label class="form-label" asp-for="Input.UtcOffset"></label>
-        <span asp-validation-for="Input.UtcOffset"></span>
-    </div>
-    </div>
-    <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available"/>
-        <label class="form-label" asp-for="Input.SpotsAvailable"></label>
-        <span asp-validation-for="Input.SpotsAvailable"></span>
-    </div>
+        <div class="form-floating flex-fill mb-0">
+            <input class="form-control flex-fill mb-0" asp-for="Input.Date" placeholder="Date"/>
+            <label class="form-label" asp-for="Input.Date"></label>
+            <span asp-validation-for="Input.Date"></span>
+        </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
-    <div class="form-floating flex-fill mb-0">
-        <input class="form-control flex-fill mb-0" asp-for="Input.Place" placeholder="Place"/>
-        <label class="form-label" asp-for="Input.Place"></label>
-        <span asp-validation-for="Input.Place"></span>
+        <div class="form-floating flex-fill mb-0">
+            <input class="form-control flex-fill mb-0" asp-for="Input.UtcOffset" placeholder="Utc Offset"/>
+            <label class="form-label" asp-for="Input.UtcOffset"></label>
+            <span asp-validation-for="Input.UtcOffset"></span>
+        </div>
     </div>
+    <div class="d-flex flex-row align-items-center mb-4">
+        <div class="form-floating flex-fill mb-0">
+            <input class="form-control flex-fill mb-0" asp-for="Input.SpotsAvailable" placeholder="Spots Available"/>
+            <label class="form-label" asp-for="Input.SpotsAvailable"></label>
+            <span asp-validation-for="Input.SpotsAvailable"></span>
+        </div>
+    </div>
+    <div class="d-flex flex-row align-items-center mb-4">
+        <div class="form-floating flex-fill mb-0">
+            <input class="form-control flex-fill mb-0" asp-for="Input.Place" placeholder="Place"/>
+            <label class="form-label" asp-for="Input.Place"></label>
+            <span asp-validation-for="Input.Place"></span>
+        </div>
     </div>
     <div class="d-flex flex-row align-items-center mb-4">
         <div class="form-floating flex-fill mb-0">
@@ -55,4 +55,9 @@
         </div>
     </div>
     <button class="btn btn-outline-success fw-bold m-3" type="submit">Edit Event</button>
+</form>
+
+<form asp-page-handler="delete" method="post">
+    <button class="btn btn-outline-danger fw-bold" type="submit" onclick="confirm('Are you sure you want to delete the Event?')">Delete</button>
+    <input type="hidden" name="id" value="@Model.CurrentEvent.Id"/>
 </form>

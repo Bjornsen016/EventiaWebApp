@@ -68,7 +68,6 @@ public class Database
             Email = "admin@eventia.com", UserName = "admin@eventia.com", FirstName = "admin", LastName = "",
             PhoneNumber = "21312314"
         };
-        //old pass word that probably works atm. 4Dministrator!
         await _userManager.CreateAsync(admin, "AdminP4ssword!");
         await _userManager.AddToRoleAsync(admin, Config.ADMIN_ROLE_NAME);
     }
@@ -83,7 +82,7 @@ public class Database
         {
             new()
             {
-                Email = "kims@email.com", UserName = "Events a la Kim", FirstName = "Kim", LastName = "Björnsen Åklint",
+                Email = "kims@email.com", UserName = "Events_a_la_Kim", FirstName = "Kim", LastName = "Björnsen Åklint",
                 PhoneNumber = "0021021013"
             },
             new()

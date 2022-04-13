@@ -17,8 +17,8 @@ builder.Services.AddScoped<OrganizerHandler>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
-        options.User.AllowedUserNameCharacters =
-            "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789-._@+";
+        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789-._@+";
+        options.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<EventDbCtx>();
 

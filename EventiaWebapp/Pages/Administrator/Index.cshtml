@@ -29,7 +29,7 @@
                 <td>@users[i].Email</td>
                 <td>
                     <form method="post">
-                        @Html.CheckBox("chkName",@isOrgan,new{onclick="this.form.submit();"})
+                        @Html.CheckBox("chkName",isOrgan,new{onclick="this.form.submit();"})
                         <input type="hidden" name="id" value="@users[i].Id"/>
                     </form>
                 </td>

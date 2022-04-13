@@ -38,7 +38,6 @@ public class EditModel : PageModel
     public async Task<IActionResult> OnPost(int id)
     {
         if (!ModelState.IsValid) return Page();
-        var organizer = await _userManager.GetUserAsync(User);
 
         CurrentEvent = await _eventHandler.GetEvent(id);
         bool created = await _organizerHandler.EditEvent(CurrentEvent,
@@ -52,6 +51,20 @@ public class EditModel : PageModel
 
         if (created) return RedirectToPage("/Organizer/Index");
 
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostDelete(int id)
+    {
+        if (id == null) return NotFound();
+
+        bool result = await _organizerHandler.RemoveEvent(id);
+
+        if (result) return RedirectToPage("/Organizer/Index");
+
+        CurrentEvent = await _eventHandler.GetEvent(id);
+        Input = new Input();
+        Input.FillInput(CurrentEvent);
         return Page();
     }
 }
