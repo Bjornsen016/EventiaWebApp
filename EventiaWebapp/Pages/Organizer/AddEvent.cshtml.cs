@@ -28,6 +28,7 @@ public class AddEventModel : PageModel
     {
     }
 
+    //BUG: På grund av att jag valde att använda UTC time-offset så har jag nu upptäckt att mina tider visas fel när man tittar på dem efteråt. Hinner inte fixa innan inlämning.
     public async Task<IActionResult> OnPost()
     {
         if (!ModelState.IsValid) return Page();

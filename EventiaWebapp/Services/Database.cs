@@ -78,6 +78,7 @@ public class Database
     private async Task Seed()
     {
         await SeedRolesAndAdmin();
+
         var users = new User[]
         {
             new()
@@ -98,5 +99,37 @@ public class Database
         await _userManager.AddToRolesAsync(users[0],
             new List<string> {Config.ATTENDEE_ROLE_NAME, Config.ORGANIZER_ROLE_NAME});
         await _userManager.AddToRoleAsync(users[1], Config.ATTENDEE_ROLE_NAME);
+
+        var events = new Event[]
+        {
+            new()
+            {
+                Address = "Gatan i Varberg", Date = new DateTime(2022, 12, 31),
+                Description = "New years party, bring your friends and enjoy the fireworks", Title = "New Years Party",
+                Place = "Party place, Varberg", UtcTimeOffset = 1, SpotsAvailable = 100, Organizer = users[0],
+                Attendees = new List<User> {users[0], users[1]}
+            },
+            new()
+            {
+                Address = "Avenyn 19", Date = new DateTime(2022, 06, 02), Description = "Coolest party",
+                Title = "Cool party", Place = "Party place, Göteborg", UtcTimeOffset = 1, SpotsAvailable = 10,
+                Organizer = users[0], Attendees = new List<User> {users[1]}
+            },
+            new()
+            {
+                Address = "Avenyn 19", Date = new DateTime(2022, 07, 15),
+                Description = "This party is the best you'll ever join", Title = "Best Party",
+                Place = "Party place, Göteborg", UtcTimeOffset = 1, SpotsAvailable = 15, Organizer = users[0]
+            },
+            new()
+            {
+                Address = "Mitt i ingenstans 14", Date = new DateTime(2022, 05, 20),
+                Description = "Bring your own drinks, the rest is on us", Title = "Pool Party", Place = "Poolhuset",
+                UtcTimeOffset = 1, SpotsAvailable = 5, Organizer = users[0], Attendees = new List<User> {users[1]}
+            }
+        };
+
+        await _context.Events.AddRangeAsync(events);
+        await _context.SaveChangesAsync();
     }
 }
