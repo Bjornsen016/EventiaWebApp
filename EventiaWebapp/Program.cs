@@ -31,6 +31,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/User/Login";
     options.SlidingExpiration = true;
     options.ReturnUrlParameter = "ReturnUrl";
+    options.AccessDeniedPath = "/AccessDenied";
 });
 
 // när vi är i "debug" läge
