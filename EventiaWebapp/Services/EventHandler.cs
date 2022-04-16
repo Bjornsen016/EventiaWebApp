@@ -72,6 +72,12 @@ public class EventHandler
         return true;
     }
 
+    /// <summary>
+    /// Uregister the user from the event.
+    /// </summary>
+    /// <param name="user">The user that wants to unregister</param>
+    /// <param name="evt">The event that the user wants to unregister from</param>
+    /// <returns>True if succeded. Else False.</returns>
     public async Task<bool> UnRegisterToEvent(User user, Event evt)
     {
         var thisEvent = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(e => e.Id == evt.Id);

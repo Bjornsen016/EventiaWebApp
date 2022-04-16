@@ -27,6 +27,8 @@ public class IndexModel : PageModel
     [Display(Name = "Current Password")]
     public string CurrentPassword { get; set; }
 
+    public string? ChangedPasswordMessage { get; set; }
+
     public IndexModel(UserManager<Models.User> userManager, Services.EventHandler eventHandler)
     {
         _userManager = userManager;
@@ -47,10 +49,19 @@ public class IndexModel : PageModel
         var userId = _userManager.GetUserId(User);
 
         CurrentUser = await _eventHandler.GetUserAsync(userId);
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return Page();
+
+        var result = await _userManager.ChangePasswordAsync(CurrentUser, CurrentPassword, NewPassword);
+
+        if (!result.Succeeded)
         {
-            var result = await _userManager.ChangePasswordAsync(CurrentUser, CurrentPassword, NewPassword);
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(error.Code, error.Description);
+            }
         }
+
+        ChangedPasswordMessage = "Password has been changed successfully";
 
         return Page();
     }
