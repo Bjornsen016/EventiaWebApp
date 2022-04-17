@@ -55,7 +55,7 @@ Om jag skulle fortsätta skulle jag börja med att sätta mig ner och göra lite
 
 ## Analys av mitt arbete
 
-Det var lite knepigt att går från min egenbyggda Auth till Identity men när jag väl kom in i flödet så funkade det galant. Blev klar ganska tidigt med grunden och la sedan mest tid på att hjälpa de andra förstå hur de kunde utvecklas. Där kunde jag kanske lagt mer tid på att vidareutveckla min app, men jag känner att jag får mer ut av att hjälpa andra med förståelse. Jag lär mig mer så att säga. <br>
+Det var lite knepigt att gå från min egenbyggda Auth till Identity men när jag väl kom in i flödet så funkade det galant. Blev klar ganska tidigt med grunden och la sedan mest tid på att hjälpa de andra förstå hur de kunde utvecklas. Där kunde jag kanske lagt mer tid på att vidareutveckla min app, men jag känner att jag får mer ut av att hjälpa andra med förståelse. Jag lär mig mer så att säga. <br>
 Något jag kan jobba med själv är att arbeta mer strukturerat, tror det kan hjälpa mig i framtida arbete när jag jobbar i ett team. T.ex. att planera appen lite mer grundligt innan jag börjar koda för mycket. Och jag har tänkt att försöka jobba lite mer TDD snart, men är lite svårt när jag arbetar med helt nya grejer.
 
 ## Buggar jag vet om
